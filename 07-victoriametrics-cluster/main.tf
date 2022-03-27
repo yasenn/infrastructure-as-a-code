@@ -2,24 +2,11 @@ data "yandex_compute_image" family_images_linux {
   family = var.family_images_linux
 }
 
-resource "yandex_compute_instance" "victoriametrics_cluster" {
-
-  for_each = {
-  "vmstorage01" = { hostname = "vmstorage01" }
-  # "vmstorage02" = { hostname = "vmstorage02" }
-  # "vmstorage03" = { hostname = "vmstorage03" }
-  # "vmstorage04" = { hostname = "vmstorage04" }
-
-  "vminsert01" = { hostname = "vminsert01" }
-  # "vminsert02" = { hostname = "vminsert02" }
-
-  # "vmselect01" = { hostname = "vmselect01" }
-  # "vmselect02" = { hostname = "vmselect02" }
-  }
-
-  name               = each.key
+resource "yandex_compute_instance" "vmstorage" {
+  count              = 4
+  name               = vmstorage[count.index]
   platform_id        = "standard-v3"
-  hostname           = each.key
+  hostname           = vmstorage[count.index]
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
   resources {
