@@ -3,10 +3,10 @@ data "yandex_compute_image" family_images_linux {
 }
 
 resource "yandex_compute_instance" "vmstorage" {
-  count              = 4
-  name               = "vmstorage[count.index]"
+  count              = 1
+  name               = "vmstorage${count.index}"
   platform_id        = "standard-v3"
-  hostname           = "vmstorage[count.index]"
+  hostname           = "vmstorage${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   resources {
     cores  = var.cores
