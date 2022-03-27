@@ -10,7 +10,7 @@ resource "yandex_compute_instance" "victoriametrics_cluster" {
   # "vmstorage03" = { hostname = "vmstorage03" }
   # "vmstorage04" = { hostname = "vmstorage04" }
 
-  # "vminsert01" = { hostname = "vminsert01" }
+  "vminsert01" = { hostname = "vminsert01" }
   # "vminsert02" = { hostname = "vminsert02" }
 
   # "vmselect01" = { hostname = "vmselect01" }
@@ -80,7 +80,7 @@ resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
     %{ for node in yandex_compute_instance.victoriametrics_cluster ~}
-    ${ node.name } ansible_host=${ yandex_compute_instance.victoriametrics_cluster.${ node.name }.network_interface.0.nat_ip_address }
+    ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
     %{ endfor ~}
   EOT
 }
