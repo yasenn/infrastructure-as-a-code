@@ -1,0 +1,8 @@
+- vmstorage:
+  - vmstorage01
+  - vmstorage02
+  - vmstorage03
+  - vmstorage04
+- vminsert:
+  - vminsert01
+  - vminsert02
