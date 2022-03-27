@@ -130,12 +130,23 @@ resource "yandex_vpc_subnet" "subnet-1" {
 #   value       = yandex_compute_instance.victoriametrics_cluster[*].network_interface.0.nat_ip_address
 # }
 
-# resource "local_file" "host_ini" {
-#   filename = "host.ini"
-#   content = <<-EOT
-#     [vmstorage]
-#     %{ for node in yandex_compute_instance.vmstorage ~}
-#     ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
-#     %{ endfor ~}
-#   EOT
-# }
+resource "local_file" "host_ini" {
+  filename = "host.ini"
+  content = <<-EOT
+[vmstorage]
+%{ for node in yandex_compute_instance.vmstorage ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+%{ endfor ~}
+[vminsert]
+%{ for node in yandex_compute_instance.vminsert ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+%{ endfor ~}
+[vmselect]
+%{ for node in yandex_compute_instance.vmselect ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+%{ endfor ~}
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+  EOT
+}
