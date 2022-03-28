@@ -1,1 +1,1 @@
-### Install victoriametrics by ansible and terraform to Yandex Cloud
+### Install victoriametrics-single by ansible and terraform to Yandex Cloud

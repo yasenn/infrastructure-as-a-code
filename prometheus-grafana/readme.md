@@ -1,1 +1,1 @@
-### Install prometheus by ansible and terraform to Yandex Cloud
+### Install prometheus, grafana by ansible and terraform to Yandex Cloud

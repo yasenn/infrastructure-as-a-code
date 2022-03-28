@@ -1,1 +1,1 @@
-### Install Gitlab by ansible and terraform to Yandex Cloud
+### Install gitlab by ansible and terraform to Yandex Cloud

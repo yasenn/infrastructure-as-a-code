@@ -1,1 +1,1 @@
-### Install zabbix by ansible and terraform to Yandex Cloud
+### Install nexus by ansible and terraform to Yandex Cloud

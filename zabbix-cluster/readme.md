@@ -1,1 +1,1 @@
-### Install zabbix by ansible and terraform to Yandex Cloud
+### Install zabbix-cluster by ansible and terraform to Yandex Cloud
