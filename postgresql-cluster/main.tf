@@ -92,30 +92,30 @@ resource "local_file" "host_ini" {
   content = <<-EOT
 [etcd_cluster]  # recommendation: 3 or 5-7 nodes
 %{ for node in yandex_compute_instance.master ~}
-ansible_host=${ node.network_interface.0.nat_ip_address }
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 %{ for node in yandex_compute_instance.replica ~}
-ansible_host=${ node.network_interface.0.nat_ip_address }
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 
 # if with_haproxy_load_balancing: true (in vars/main.yml)
 [balancers]
 %{ for node in yandex_compute_instance.master ~}
-ansible_host=${ node.network_interface.0.nat_ip_address }
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 %{ for node in yandex_compute_instance.replica ~}
-ansible_host=${ node.network_interface.0.nat_ip_address }
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 
 # PostgreSQL nodes
 [master]
 %{ for node in yandex_compute_instance.master ~}
-ansible_host=${ node.network_interface.0.nat_ip_address } hostname=${ node.name } postgresql_exists='false'
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } hostname=${ node.name } postgresql_exists='false'
 %{ endfor ~}
 
 [replica]
 %{ for node in yandex_compute_instance.replica ~}
-ansible_host=${ node.network_interface.0.nat_ip_address } hostname=${ node.name } postgresql_exists='false'
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } hostname=${ node.name } postgresql_exists='false'
 %{ endfor ~}
 
 [postgres_cluster:children]
