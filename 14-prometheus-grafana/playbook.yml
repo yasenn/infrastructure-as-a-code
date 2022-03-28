@@ -11,7 +11,6 @@
             - localhost:9100
     - role: cloudalchemy.grafana
       vars:
-        grafana_dashboards: [1860]
         grafana_security:
           admin_user: admin
           admin_password: enter_your_secure_password
@@ -21,3 +20,9 @@
             access: proxy
             url: 'http://localhost:9090'
             basicAuth: false
+        dashboards:
+        - dashboard_id: 1860
+          revision_id: 26
+          datasource: prometheus
+
+# https://github.com/stadtulm/a13-ansible/blob/master/main.yml
