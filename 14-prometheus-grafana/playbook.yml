@@ -1,0 +1,11 @@
+---
+- name: Install prometheus
+  hosts: prometheus
+  roles:
+    - role: cloudalchemy.node_exporter
+    - role: cloudalchemy.prometheus
+    - role: cloudalchemy.grafana
+      vars:
+        grafana_security:
+          admin_user: admin
+          admin_password: enter_your_secure_password
