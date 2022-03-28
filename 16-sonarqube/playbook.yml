@@ -1,0 +1,5 @@
+---
+- hosts: sonarqube
+  become: yes
+  roles:
+    - lrk.sonarqube
