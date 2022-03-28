@@ -1,5 +1,5 @@
   - hosts: sonarqube
-    become: yes
+    become: true
     pre_tasks:
       - name: update apt cache
         ansible.builtin.apt:

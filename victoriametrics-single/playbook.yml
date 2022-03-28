@@ -1,5 +1,5 @@
 - hosts: victoriametrics
-  become: yes
+  become: true
   roles:
     - role: buluma.victoriametrics
 

@@ -1,5 +1,5 @@
 - hosts: jenkins
-  become: yes
+  become: true
   roles:
     - role: robertdebock.java
     - role: robertdebock.jenkins

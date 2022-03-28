@@ -1,5 +1,5 @@
 ---
 - hosts: seaweedfs
-  become: yes
+  become: true
   roles:
     - bmillemathias.seaweedfs

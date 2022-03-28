@@ -1,7 +1,7 @@
 ---
 - name: Install zabbix server and web
   hosts: zabbix
-  become: yes
+  become: true
 
   roles:
     - role: buluma.bootstrap

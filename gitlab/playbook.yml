@@ -1,5 +1,5 @@
 - hosts: gitlab
-  become: yes
+  become: true
   roles:
     - role: buluma.gitlab
   post_tasks:

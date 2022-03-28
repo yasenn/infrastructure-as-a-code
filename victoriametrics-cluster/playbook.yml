@@ -1,6 +1,6 @@
 ---
 - hosts: vmstorage,vminsert,vmselect
-  become: yes
+  become: true
 
   roles:
     - role: buluma.victoriametrics_cluster

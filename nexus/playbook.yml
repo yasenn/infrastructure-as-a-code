@@ -1,7 +1,7 @@
 ---
 - name: Nexus
   hosts: nexus
-  become: yes
+  become: true
 
   vars:
     nexus_timezone: 'Canada/Eastern'

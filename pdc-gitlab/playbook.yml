@@ -23,7 +23,7 @@
         path: ou=GitlabUsers,dc=ad,dc=domain,dc=test
 
 - hosts: gitlab
-  become: yes
+  become: true
   roles:
     - role: robertdebock.gitlab
   post_tasks:
