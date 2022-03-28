@@ -1,0 +1,7 @@
+---
+- name: Install harbor
+  hosts: harbor
+  become: yes
+
+  roles:
+    - nicholasamorim.harbor
