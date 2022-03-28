@@ -6,8 +6,8 @@ start_time=`date +%s`
 date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
-# ansible-galaxy install slapper.ansible_victoriametrics_cluster_role
-# ansible-playbook -i inventory.yml playbook.yml
+ansible-galaxy install buluma.victoriametrics_cluster
+ansible-playbook -i host.ini playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"

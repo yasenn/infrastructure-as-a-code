@@ -1,6 +1,6 @@
-# ---
-# - hosts: vmstorage,vminsert,vmselect
-#   become: yes
+---
+- hosts: vmstorage,vminsert,vmselect
+  become: yes
 
-#   roles:
-#     - ansible-vicotriametrics-cluster-role
+  roles:
+    - role: buluma.victoriametrics_cluster

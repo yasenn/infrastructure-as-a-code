@@ -3,7 +3,7 @@ data "yandex_compute_image" family_images_linux {
 }
 
 resource "yandex_compute_instance" "vmstorage" {
-  count              = 1
+  count              = 4
   name               = "vmstorage${count.index}"
   platform_id        = "standard-v3"
   hostname           = "vmstorage${count.index}"
@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "vmstorage" {
 }
 
 resource "yandex_compute_instance" "vminsert" {
-  count              = 1
+  count              = 2
   name               = "vminsert${count.index}"
   platform_id        = "standard-v3"
   hostname           = "vminsert${count.index}"
@@ -77,7 +77,7 @@ resource "yandex_compute_instance" "vminsert" {
 }
 
 resource "yandex_compute_instance" "vmselect" {
-  count              = 1
+  count              = 2
   name               = "vmselect${count.index}"
   platform_id        = "standard-v3"
   hostname           = "vmselect${count.index}"
