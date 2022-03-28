@@ -1,5 +1,5 @@
 - hosts: victoriametrics
   become: yes
   roles:
-    - role: lotusnoir.apps_victoriametrics
+    - role: buluma.victoriametrics
 
