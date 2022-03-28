@@ -1,7 +1,7 @@
 - hosts: gitlab
   become: yes
   roles:
-    - role: robertdebock.gitlab
+    - role: buluma.gitlab
   post_tasks:
     - name: Read initial_root_password file
       slurp:
