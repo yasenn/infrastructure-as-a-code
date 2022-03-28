@@ -1,6 +1,10 @@
   - hosts: sonarqube
     become: yes
     pre_tasks:
+      - name: update apt cache
+        ansible.builtin.apt:
+          update_cache: yes
+        when: ansible_pkg_mgr == "apt"
       - name: Install package dependencies.
         package:
           name: "{{ item }}"
