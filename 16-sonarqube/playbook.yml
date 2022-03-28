@@ -1,5 +1,12 @@
----
-- hosts: sonarqube
-  become: yes
-  roles:
-    - lrk.sonarqube
+  - hosts: sonarqube
+    become: yes
+    pre_tasks:
+      - name: Install package dependencies.
+        package:
+          name: "{{ item }}"
+          state: "present"
+        with_items:
+          - unzip
+    roles:
+      - buluma.java
+      - lrk.sonarqube
