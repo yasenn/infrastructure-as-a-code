@@ -6,7 +6,7 @@ start_time=`date +%s`
 date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
-ansible-galaxy install vitabaks.postgresql_cluster,1.5.0
+ansible-galaxy install --force git+https://github.com/vitabaks/postgresql_cluster.git,master
 ansible-playbook -i host.ini playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
