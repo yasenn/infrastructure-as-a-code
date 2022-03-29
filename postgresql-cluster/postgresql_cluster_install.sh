@@ -6,8 +6,9 @@ start_time=`date +%s`
 date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
-ansible-galaxy install --force git+https://github.com/vitabaks/postgresql_cluster.git,master
-ansible-playbook -i host.ini playbook.yml
+rm -rf postgresql_cluster || true
+git clone https://github.com/vitabaks/postgresql_cluster.git
+ansible-playbook -i host.ini postgresql_cluster/deploy_pgcluster.yml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"
