@@ -145,6 +145,16 @@ ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ for node in yandex_compute_instance.vmselect ~}
 ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
+
+[vmstorage:vars]
+vm_role=victoria-storage
+
+[vminsert:vars]
+vm_role=victoria-insert
+
+[vmselect:vars]
+vm_role=victoria-select
+
 [all:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
