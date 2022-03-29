@@ -4,5 +4,3 @@
   roles:
     - role: ansible-role-seaweedfs
       weed_version: 2.74
-      # vars:
-      #     weed.version: 2.74

@@ -64,29 +64,16 @@ output "public_ip" {
 }
 
 resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
   filename = "host.ini"
-}
-
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.seaweedfs.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
-}
-
-resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml.rendered
-  filename = "inventory.yml"
-}
-
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.seaweedfs.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
+  content = <<-EOT
+[weed_master]
+${ yandex_compute_instance.seaweedfs.network_interface.0.nat_ip_address }
+[weed_volume]
+${ yandex_compute_instance.seaweedfs.network_interface.0.nat_ip_address }
+[weed_filer]
+${ yandex_compute_instance.seaweedfs.network_interface.0.nat_ip_address }
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+  EOT
 }
