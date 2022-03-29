@@ -8,7 +8,7 @@ TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 rm -rf kubespray || true
 git clone https://github.com/kubernetes-sigs/kubespray.git
-ansible-playbook -i host.ini kubespray/cluster.yml
+ansible-playbook -i host.ini --become kubespray/cluster.yml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"

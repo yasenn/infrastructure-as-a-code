@@ -2,11 +2,11 @@ data "yandex_compute_image" family_images_linux {
   family = var.family_images_linux
 }
 
-resource "yandex_compute_instance" "kubespray" {
+resource "yandex_compute_instance" "etcd-cluster" {
   count              = 3
-  name               = "kubespray${count.index}"
+  name               = "master${count.index}"
   platform_id        = "standard-v3"
-  hostname           = "kubespray${count.index}"
+  hostname           = "master${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   resources {
     cores  = var.cores
@@ -53,32 +53,17 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
-[all]
-%{ for node in yandex_compute_instance.kubespray ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
-
-[kube_control_plane]
-%{ for node in yandex_compute_instance.kubespray ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
-
+# voting and non-voting members
 [etcd]
-%{ for node in yandex_compute_instance.kubespray ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
+%{ for node in yandex_compute_instance.etcd-cluster ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 
-[kube_node]
-%{ for node in yandex_compute_instance.kubespray ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
+# voting members
+[etcd_master]
+%{ for node in yandex_compute_instance.etcd-cluster ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
-
-[calico_rr]
-
-[k8s_cluster:children]
-kube_control_plane
-kube_node
-calico_rr
 
 # Connection settings
 [all:vars]
