@@ -1,15 +1,16 @@
 ---
 - name: Install prometheus and Grafana
+  become: true
   hosts: prometheus
   roles:
     - role: cloudalchemy.node_exporter
-    - role: cloudalchemy.prometheus
+    - role: cloudalchemy.prometheus # buluma.prometheus
       vars:
         prometheus_targets:
           node:
           - targets:
             - localhost:9100
-    - role: cloudalchemy.grafana
+    - role: cloudalchemy.grafana # buluma.grafana
       vars:
         grafana_security:
           admin_user: admin
