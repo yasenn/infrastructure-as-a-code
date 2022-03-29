@@ -92,19 +92,19 @@ resource "local_file" "host_ini" {
   content = <<-EOT
 [etcd_cluster]  # recommendation: 3 or 5-7 nodes
 %{ for node in yandex_compute_instance.master ~}
-${ node.network_interface.0.nat_ip_address }
+${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
 %{ endfor ~}
 %{ for node in yandex_compute_instance.replica ~}
-${ node.network_interface.0.nat_ip_address }
+${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
 %{ endfor ~}
 
 # if with_haproxy_load_balancing: true (in vars/main.yml)
 [balancers]
 %{ for node in yandex_compute_instance.master ~}
-${ node.network_interface.0.nat_ip_address }
+${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
 %{ endfor ~}
 %{ for node in yandex_compute_instance.replica ~}
-${ node.network_interface.0.nat_ip_address }
+${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
 %{ endfor ~}
 
 # PostgreSQL nodes
