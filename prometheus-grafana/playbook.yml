@@ -11,8 +11,9 @@
           - targets:
             - localhost:9100
         prometheus_components: [ "prometheus", "node_exporter" ]
-    - role: cloudalchemy.grafana # buluma.grafana
+    - role: buluma.grafana # cloudalchemy.grafana
       vars:
+        grafana_use_provisioning: true
         grafana_security:
           admin_user: admin
           admin_password: enter_your_secure_password
@@ -22,7 +23,7 @@
             access: proxy
             url: 'http://localhost:9090'
             basicAuth: false
-        dashboards:
+        grafana_dashboards:
         - dashboard_id: 1860
           revision_id: 26
           datasource: prometheus
