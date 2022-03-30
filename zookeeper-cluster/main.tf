@@ -60,7 +60,7 @@ resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
 [zookeepers]
-%{ for node in yandex_compute_instance.zookeeper ~}
+%{ for index, node in yandex_compute_instance.zookeeper ~}
 ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 
@@ -68,4 +68,27 @@ ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
   EOT
+}
+
+
+resource "local_file" "inventory_yml" {
+  filename = "inventory.yml"
+  content = <<-EOT
+all:
+  children:
+    zookeepers:
+      hosts:
+  %{ for index, node in yandex_compute_instance.zookeeper ~}
+      ${ node.name }:
+          ansible_host: ${ node.network_interface.0.nat_ip_address }
+  %{ endfor ~}
+vars:
+    ansible_user:  ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    zookeeper_hosts:
+    %{ for index, node in yandex_compute_instance.zookeeper ~}
+- host: ${ node.name }
+      id: ${ index }
+    %{ endfor ~}
+EOT
 }
