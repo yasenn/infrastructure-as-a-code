@@ -1,15 +1,15 @@
-# ---
-# - hosts: vmstorage,vminsert,vmselect
-#   become: true
-
-#   roles:
-#     - role: buluma.victoriametrics_cluster
-
-
 ---
 - hosts: vmstorage,vminsert,vmselect
-  collections:
-    - victoriametrics.cluster
   become: true
+
   roles:
-    - victoriametrics.cluster.victoria_cluster
+    - role: buluma.victoriametrics_cluster
+
+
+# ---
+# - hosts: vmstorage,vminsert,vmselect
+#   collections:
+#     - victoriametrics.cluster
+#   become: true
+#   roles:
+#     - victoriametrics.cluster.victoria_cluster

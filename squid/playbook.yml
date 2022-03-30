@@ -1,0 +1,4 @@
+  - hosts: sonarqube
+    become: true
+    roles:
+      - mrlesmithjr.squid
