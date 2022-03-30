@@ -12,4 +12,5 @@
 #     - victoriametrics.cluster
 #   become: true
 #   roles:
+#     - geerlingguy.docker
 #     - victoriametrics.cluster.victoria_cluster

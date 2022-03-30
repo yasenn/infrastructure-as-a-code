@@ -61,7 +61,7 @@ resource "local_file" "host_ini" {
   content = <<-EOT
 [zookeepers]
 %{ for index, node in yandex_compute_instance.zookeeper ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+${ node.name } ansible_host=${ node.network_interface.0.ip_address }
 %{ endfor ~}
 
 [all:vars]
@@ -80,7 +80,7 @@ all:
       hosts:
   %{ for index, node in yandex_compute_instance.zookeeper ~}
       ${ node.name }:
-          ansible_host: ${ node.network_interface.0.nat_ip_address }
+          ansible_host: ${ node.network_interface.0.ip_address }
   %{ endfor ~}
 vars:
     ansible_user:  ubuntu
