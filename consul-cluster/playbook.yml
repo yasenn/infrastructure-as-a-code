@@ -1,5 +1,5 @@
 ---
-- hosts: zookeepers
+- hosts: consuls
   become: true
   pre_tasks:
     - name: Update apt cache.
