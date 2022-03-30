@@ -1,4 +1,4 @@
-  - hosts: sonarqube
+  - hosts: squid
     become: true
     roles:
       - mrlesmithjr.squid
