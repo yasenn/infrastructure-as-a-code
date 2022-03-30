@@ -6,5 +6,5 @@ all:
           ansible_host: "${public_ip}"
   vars:
     freeipa_external_url: "https://${hostname}.${public_ip}.${domain}"
-    ansible_user:  centos
+    ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa

@@ -2,18 +2,16 @@ data "yandex_compute_image" family_images_linux {
   family = var.family_images_linux
 }
 
-resource "yandex_compute_instance" "freeipa" {
-
-  name        = "freeipa"
-  platform_id = "standard-v3"
-  hostname    = var.hostname
+resource "yandex_compute_instance" "zookeeper" {
+  count              = 3
+  name               = "zookeeper${count.index}"
+  platform_id        = "standard-v3"
+  hostname           = "zookeeper${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-
   resources {
     cores  = var.cores
     memory = var.memory
   }
-
   boot_disk {
     initialize_params {
       size     = var.disk_size
@@ -21,16 +19,13 @@ resource "yandex_compute_instance" "freeipa" {
       image_id = data.yandex_compute_image.family_images_linux.id
     }
   }
-
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-1.id
     nat       = true
   }
-
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -38,12 +33,10 @@ resource "yandex_compute_instance" "freeipa" {
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }
-
     inline = [
       "echo hello"
     ]
   }
-
 }
 
 resource "yandex_vpc_network" "network-1" {
@@ -58,35 +51,21 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 # Output values
-output "public_ip" {
-  description = "Public IP address for active directory"
-  value       = yandex_compute_instance.freeipa.network_interface.0.nat_ip_address
-}
+# output "public_ip" {
+#   description = "Public IP address for active directory"
+#   value       = yandex_compute_instance.victoriametrics_cluster[*].network_interface.0.nat_ip_address
+# }
 
 resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
   filename = "host.ini"
-}
+  content = <<-EOT
+[zookeeper]
+%{ for node in yandex_compute_instance.zookeeper ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+%{ endfor ~}
 
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.freeipa.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
-}
-
-resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml.rendered
-  filename = "inventory.yml"
-}
-
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.freeipa.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+  EOT
 }

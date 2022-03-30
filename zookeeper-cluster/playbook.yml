@@ -1,0 +1,6 @@
+---
+- hosts: zookeeper
+  become: true
+  roles:
+    - role: idealista.zookeeper_role
+      zookeeper_hosts: "{{groups['zookeepers']}}"
