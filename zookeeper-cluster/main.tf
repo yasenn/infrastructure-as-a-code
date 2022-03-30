@@ -64,6 +64,11 @@ resource "local_file" "host_ini" {
 ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
 
+# [zookeeper-nodes]
+# zoo1 zookeeper_id=1
+# zoo2 zookeeper_id=2
+# zoo3 zookeeper_id=3
+
 [all:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
