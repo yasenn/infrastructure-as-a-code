@@ -59,7 +59,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
-[zookeeper]
+[zookeepers]
 %{ for node in yandex_compute_instance.zookeeper ~}
 ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
