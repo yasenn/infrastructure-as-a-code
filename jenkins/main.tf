@@ -41,7 +41,7 @@ resource "yandex_compute_instance" "jenkins" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 

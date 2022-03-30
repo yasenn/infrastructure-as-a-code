@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "prometheus" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 

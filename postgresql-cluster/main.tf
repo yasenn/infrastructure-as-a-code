@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "master" {
       private_key = file("~/.ssh/id_rsa")
     }
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 }
@@ -71,7 +71,7 @@ resource "yandex_compute_instance" "replica" {
       private_key = file("~/.ssh/id_rsa")
     }
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 }

@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "squid" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 

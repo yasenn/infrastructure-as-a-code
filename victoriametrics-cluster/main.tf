@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "vmstorage" {
       private_key = file("~/.ssh/id_rsa")
     }
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 }
@@ -71,7 +71,7 @@ resource "yandex_compute_instance" "vminsert" {
       private_key = file("~/.ssh/id_rsa")
     }
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 }
@@ -108,7 +108,7 @@ resource "yandex_compute_instance" "vmselect" {
       private_key = file("~/.ssh/id_rsa")
     }
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 }

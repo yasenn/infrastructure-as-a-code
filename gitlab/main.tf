@@ -41,7 +41,7 @@ resource "yandex_compute_instance" "gitlab" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 

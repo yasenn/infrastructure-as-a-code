@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "zookeeper" {
       private_key = file("~/.ssh/id_rsa")
     }
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 }

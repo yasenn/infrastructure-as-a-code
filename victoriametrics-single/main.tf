@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "victoriametrics" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 

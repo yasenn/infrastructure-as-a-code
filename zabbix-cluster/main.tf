@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "zabbix" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 

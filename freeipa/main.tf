@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "freeipa" {
     }
 
     inline = [
-      "echo hello"
+      "echo check connection"
     ]
   }
 
