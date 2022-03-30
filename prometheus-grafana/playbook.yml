@@ -10,6 +10,7 @@
           node:
           - targets:
             - localhost:9100
+        prometheus_components: [ "prometheus", "node_exporter" ]
     - role: cloudalchemy.grafana # buluma.grafana
       vars:
         grafana_security:
