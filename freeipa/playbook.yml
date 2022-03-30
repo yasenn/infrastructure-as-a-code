@@ -1,0 +1,4 @@
+  - hosts: freeipa
+    become: true
+    roles:
+      - timorunge.freeipa_server
