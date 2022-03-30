@@ -59,7 +59,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
-[consuls]
+[consul_instances]
 %{ for index, node in yandex_compute_instance.consul ~}
 ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
@@ -81,7 +81,7 @@ resource "local_file" "inventory_yml" {
   content = <<-EOT
 all:
   children:
-    consuls:
+    consul_instances:
       hosts:
   %{ for index, node in yandex_compute_instance.consul ~}
       ${ node.name }:
@@ -90,10 +90,10 @@ all:
 vars:
     ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    consul_hosts:
-    %{ for index, node in yandex_compute_instance.consul ~}
-- host: ${ node.name }
-      id: ${ index }
+#     consul_hosts:
+#     %{ for index, node in yandex_compute_instance.consul ~}
+# - host: ${ node.name }
+#       id: ${ index }
     %{ endfor ~}
 EOT
 }
