@@ -5,25 +5,29 @@
     - name: Update apt cache.
       apt: update_cache=true cache_valid_time=600
       when: ansible_os_family == 'Debian'
+    - name: install pip3
+      apt: name=python3-pip state=present
   roles:
     - role: buluma.java
     - role: geerlingguy.docker
     # - role: cloudalchemy.node_exporter
     - role: andrewrothstein.prometheus_jmx_exporter
   post_tasks:
+    - name: Install multi python packages with version specifiers
+      pip:
+        name:
+          - docker
+          - docker-compose
     - name: Git checkout e2e Repository 
       ansible.builtin.git:
         repo: 'https://github.com/Drill4J/e2e.git'
         dest: e2e
-    - name: ls in dir
-      shell:
-        cmd: "ls; pwd"
-        chdir: e2e/docker
-    - name: Create and start services
-      shell:
-        cmd: "docker-compose -f docker-compose.admin.yml up -d"
-        chdir: e2e/docker
-
+    # use files parameter to use multiple docker-compose.yml files
+    - name: Run docker-compose.admin up
+      community.general.docker_compose:
+        project_src: e2e/docker
+        files:
+          - docker-compose.admin.yml
 
 - name: Install prometheus and Grafana
   become: true
