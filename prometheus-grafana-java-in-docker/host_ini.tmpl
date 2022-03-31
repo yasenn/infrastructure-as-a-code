@@ -1,7 +1,15 @@
-[prometheus]
-"${hostname}" ansible_host="${public_ip}"
+[${hostname_prometheus}]
+"${hostname_prometheus}" ansible_host="${public_ip_prometheus}"
 
-[prometheus:vars]
-grafana_url="http://${hostname}.${public_ip}.${domain}"
+[${hostname_prometheus}:vars]
+grafana_url="http://${hostname_prometheus}.${public_ip_prometheus}.${domain}"
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[${hostname_javaindocker}]
+"${hostname_javaindocker}" ansible_host="${public_ip_javaindocker}"
+
+[${hostname_javaindocker}:vars]
+grafana_url="http://${hostname_javaindocker}.${public_ip_javaindocker}.${domain}"
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa

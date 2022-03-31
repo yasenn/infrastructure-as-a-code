@@ -44,9 +44,14 @@ variable "disk_type" {
   description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
 }
 
-variable "hostname" {
+variable "hostname_prometheus" {
   type        = string
-  description = "hostname"
+  description = "hostname_prometheus"
+}
+
+variable "hostname_javaindocker" {
+  type        = string
+  description = "hostname_javaindocker"
 }
 
 variable "domain" {

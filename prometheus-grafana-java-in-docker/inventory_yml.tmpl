@@ -1,10 +1,14 @@
 all:
   children:
-    prometheus:
+    ${hostname_prometheus}:
       hosts:
-        "${hostname}":
-          ansible_host: "${public_ip}"
+        "${hostname_prometheus}":
+          ansible_host: "${public_ip_prometheus}"
+    ${hostname_javaindocker}:
+      hosts:
+        "${hostname_javaindocker}":
+          ansible_host: "${public_ip_javaindocker}"
   vars:
-    grafana_url: "http://${hostname}.${public_ip}.${domain}"
+    grafana_url: "http://${hostname_prometheus}.${public_ip_prometheus}.${domain}"
     ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
