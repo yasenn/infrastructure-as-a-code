@@ -2,13 +2,15 @@
 - hosts: javaindocker
   become: true
   roles:
-    - geerlingguy.docker
+    - role: geerlingguy.docker
+    # - role: cloudalchemy.node_exporter
+    - role: andrewrothstein.prometheus_jmx_exporter
 
 - name: Install prometheus and Grafana
   become: true
   hosts: prometheus
   roles:
-    - role: cloudalchemy.node_exporter
+    # - role: cloudalchemy.node_exporter
     - role: buluma.prometheus
       vars:
         prometheus_targets:
