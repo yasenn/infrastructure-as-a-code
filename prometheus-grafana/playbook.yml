@@ -4,14 +4,15 @@
   hosts: prometheus
   roles:
     - role: cloudalchemy.node_exporter
-    - role: cloudalchemy.prometheus # buluma.prometheus
+    - role: andrewrothstein.prometheus_jmx_exporter
+    - role: buluma.prometheus
       vars:
         prometheus_targets:
           node:
           - targets:
             - localhost:9100
         prometheus_components: [ "prometheus", "node_exporter" ]
-    - role: buluma.grafana # cloudalchemy.grafana
+    - role: buluma.grafana
       vars:
         grafana_use_provisioning: true
         grafana_security:

@@ -4,6 +4,7 @@
 
 #   roles:
 #     - role: buluma.victoriametrics_cluster
+#       victoriametrics_version: v1.58.0
 
 
 ---
