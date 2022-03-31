@@ -1,4 +1,9 @@
 ---
+- hosts: javaindocker
+  become: true
+  roles:
+    - geerlingguy.docker
+
 - name: Install prometheus and Grafana
   become: true
   hosts: prometheus
