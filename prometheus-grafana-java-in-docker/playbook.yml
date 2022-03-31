@@ -2,9 +2,20 @@
 - hosts: javaindocker
   become: true
   roles:
+    - role: buluma.java
     - role: geerlingguy.docker
     # - role: cloudalchemy.node_exporter
     - role: andrewrothstein.prometheus_jmx_exporter
+  post_tasks:
+    - name: Git checkout e2e Repository 
+      ansible.builtin.git:
+        repo: 'https://github.com/Drill4J/e2e.git'
+    - name: Create and start services
+      community.docker.docker_compose:
+        project_src: e2e/docker
+      register: output
+    - ansible.builtin.debug:
+        var: output
 
 - name: Install prometheus and Grafana
   become: true

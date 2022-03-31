@@ -10,8 +10,8 @@ resource "yandex_compute_instance" "javaindocker" {
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
   resources {
-    cores  = var.cores
-    memory = var.memory
+    cores  = 2
+    memory = 6
   }
 
   boot_disk {

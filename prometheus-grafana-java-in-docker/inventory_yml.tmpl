@@ -12,3 +12,7 @@ all:
     grafana_url: "http://${hostname_prometheus}.${public_ip_prometheus}.${domain}"
     ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    prometheus_targets:
+      node:
+      - targets:
+        - ${public_ip_javaindocker}:9100
