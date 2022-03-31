@@ -102,12 +102,12 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 # Output values
-output "public_ip" {
+output "public_ip_prometheus" {
   description = "Public IP address for active directory"
   value       = yandex_compute_instance.prometheus.network_interface.0.nat_ip_address
 }
 
-output "public_ip" {
+output "public_ip_javaindocker" {
   description = "Public IP address for active directory"
   value       = yandex_compute_instance.javaindocker.network_interface.0.nat_ip_address
 }
