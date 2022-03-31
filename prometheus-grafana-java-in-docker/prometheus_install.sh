@@ -12,6 +12,7 @@ ansible-galaxy install cloudalchemy.grafana
 ansible-galaxy install buluma.prometheus
 ansible-galaxy install buluma.grafana
 ansible-galaxy install andrewrothstein.prometheus_jmx_exporter
+ansible-galaxy install buluma.java
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
