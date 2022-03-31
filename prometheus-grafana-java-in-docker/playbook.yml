@@ -1,0 +1,32 @@
+---
+- name: Install prometheus and Grafana
+  become: true
+  hosts: prometheus
+  roles:
+    - role: cloudalchemy.node_exporter
+    - role: andrewrothstein.prometheus_jmx_exporter
+    - role: buluma.prometheus
+      vars:
+        prometheus_targets:
+          node:
+          - targets:
+            - localhost:9100
+        prometheus_components: [ "prometheus", "node_exporter" ]
+    - role: buluma.grafana
+      vars:
+        grafana_use_provisioning: true
+        grafana_security:
+          admin_user: admin
+          admin_password: enter_your_secure_password
+        grafana_datasources:
+          - name: prometheus
+            type: prometheus
+            access: proxy
+            url: 'http://localhost:9090'
+            basicAuth: false
+        grafana_dashboards:
+        - dashboard_id: 1860
+          revision_id: 26
+          datasource: prometheus
+
+# https://github.com/stadtulm/a13-ansible/blob/master/main.yml
