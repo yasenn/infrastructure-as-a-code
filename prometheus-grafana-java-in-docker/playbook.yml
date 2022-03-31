@@ -15,12 +15,15 @@
       ansible.builtin.git:
         repo: 'https://github.com/Drill4J/e2e.git'
         dest: e2e
+    - name: ls in dir
+      shell:
+        cmd: "ls; pwd"
+        chdir: e2e/docker
     - name: Create and start services
-      community.docker.docker_compose:
-        project_src: e2e/docker
-      register: output
-    - ansible.builtin.debug:
-        var: output
+      shell:
+        cmd: "docker-compose -f docker-compose.admin.yml up -d"
+        chdir: e2e/docker
+
 
 - name: Install prometheus and Grafana
   become: true
