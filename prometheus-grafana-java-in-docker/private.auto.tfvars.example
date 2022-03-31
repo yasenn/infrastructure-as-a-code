@@ -7,5 +7,6 @@ cores               = "2" # Examples: 2, 4, 6, 8 and more
 memory              = "2" # Examples: 2, 4, 6, 8 and more
 disk_size           = "10" # Min 50 for Windows
 disk_type           = "network-ssd" # Examples: network-ssd, network-hdd, network-ssd-nonreplicated
-hostname            = "prometheus"
+hostname_prometheus = "prometheus"
+hostname_javaindocker = "javaindocker"
 domain              = "sslip.io"
