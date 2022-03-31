@@ -9,7 +9,6 @@
   hosts: prometheus
   roles:
     - role: cloudalchemy.node_exporter
-    - role: andrewrothstein.prometheus_jmx_exporter
     - role: buluma.prometheus
       vars:
         prometheus_targets:
