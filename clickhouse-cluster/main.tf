@@ -58,14 +58,19 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "inventory_yml" {
-  content  = join(",", data.template_file.inventory_yml[*].rendered)
+  # content  = join(",", data.template_file.inventory_yml[*].rendered)
+  content = templatefile("inventory_yml.tmpl", { content = tomap({
+    for index, node in yandex_compute_instance.clickhouse:
+      index => node.network_interface.0.nat_ip_address
+    })
+  })
   filename = "inventory.yml"
 }
 
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  count    = length(yandex_compute_instance.clickhouse)
-  vars = {
-    public_ip = element(yandex_compute_instance.clickhouse[*].network_interface.0.nat_ip_address, count.index)
-  }
-}
+# data "template_file" "inventory_yml" {
+#   template = file("inventory_yml.tmpl")
+#   count    = length(yandex_compute_instance.clickhouse)
+#   vars = {
+#     public_ip = element(yandex_compute_instance.clickhouse[*].network_interface.0.nat_ip_address, count.index)
+#   }
+# }
