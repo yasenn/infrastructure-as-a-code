@@ -6,29 +6,8 @@ start_time=`date +%s`
 date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
-ansible-galaxy install buluma.bootstrap
-ansible-galaxy install buluma.selinux
-ansible-galaxy install robertdebock.container_docs
-ansible-galaxy install buluma.buildtools
-
-ansible-galaxy install buluma.epel
-ansible-galaxy install buluma.python_pip
-ansible-galaxy install buluma.openssl
-
-ansible-galaxy install buluma.mysql
-ansible-galaxy install buluma.buildtools
-
-ansible-galaxy install buluma.php
-ansible-galaxy install buluma.httpd
-ansible-galaxy install buluma.ca_certificates
-ansible-galaxy install buluma.zabbix_repository
-
-ansible-galaxy install buluma.core_dependencies
-ansible-galaxy install buluma.zabbix_server
-
-ansible-galaxy install buluma.zabbix_web
-
-ansible-playbook -vvv -i inventory.yml playbook.yml
+ansible-galaxy install alexeysetevoi.clickhouse
+ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"

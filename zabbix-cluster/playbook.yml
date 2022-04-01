@@ -6,13 +6,26 @@
     - name: Update apt cache.
       apt: update_cache=true cache_valid_time=600
       when: ansible_os_family == 'Debian'
+    - name: Remove 127.0.1.1 from /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.1.1'
+    - name: Reboot host and wait for it to restart
+      reboot:
+        msg: "Reboot initiated by Ansible"
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        test_command: whoami
   roles:
     # - role: buluma.bootstrap
     # - role: buluma.selinux
     # - role: robertdebock.container_docs
     # - role: buluma.buildtools
     # - role: buluma.epel
-    # - role: buluma.python_pip
+    - role: buluma.python_pip
     # - role: buluma.openssl
     #   openssl_items:
     #     - name: apache-httpd

@@ -1,41 +1,73 @@
----
-- name: Install clickhouse server and web
-  hosts: clickhouse
-  become: true
-  pre_tasks:
-    - name: Update apt cache.
-      apt: update_cache=true cache_valid_time=600
-      when: ansible_os_family == 'Debian'
-  roles:
-    # - role: buluma.bootstrap
-    # - role: buluma.selinux
-    # - role: robertdebock.container_docs
-    # - role: buluma.buildtools
-    # - role: buluma.epel
-    # - role: buluma.python_pip
-    # - role: buluma.openssl
-    #   openssl_items:
-    #     - name: apache-httpd
-    #       common_name: "{{ ansible_fqdn }}"
-    - role: buluma.mysql
-      mysql_databases:
-        - name: clickhouse
-          encoding: utf8
-          collation: utf8_bin
-      mysql_users:
-        - name: clickhouse
-          password: clickhouse
-          priv: "clickhouse.*:ALL"
-    - role: buluma.php
-    - role: buluma.httpd
-    # - role: buluma.ca_certificates
-    - role: buluma.clickhouse_repository
-    # - role: buluma.core_dependencies
-    - role: buluma.clickhouse_server
-
-    - role: buluma.clickhouse_web
-      # You can provision clickhouse groups.
-      # Most options map directly to the documentation:
-      # https://docs.ansible.com/ansible/latest/modules/clickhouse_group_module.html
-      clickhouse_web_groups:
-        - name: Linux servers
+  - hosts: clickhouse
+    remote_user: root
+    vars:
+      clickhouse_users_custom:
+          - { name: "testuser",
+              password_sha256_hex: "f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2",
+              networks: "{{ clickhouse_networks_default }}",
+              profile: "default",
+              quota: "default",
+              dbs: [ testu1 ] ,
+              comment: "classic user with plain password"}
+          - { name: "testuser2",
+              password: "testplpassword",
+              networks: "{{ clickhouse_networks_default }}",
+              profile: "default",
+              quota: "default",
+              dbs: [ testu2 ] ,
+              comment: "classic user with hex password"}
+          - { name: "testuser3",
+              password: "testplpassword",
+              networks: { 192.168.0.0/24, 10.0.0.0/8 },
+              profile: "default",
+              quota: "default",
+              dbs: [ testu1,testu2,testu3 ] ,
+              comment: "classic user with multi dbs and multi-custom network allow password"}
+      clickhouse_query_log_ttl: 'event_date + INTERVAL 7  DELETE'
+      clickhouse_dicts:
+          test1:
+            name: test_dict
+            odbc_source:
+              connection_string: "DSN=testdb"
+              source_table: "dict_source"
+            lifetime:
+              min: 300
+              max: 360
+            layout: hashed
+            structure:
+              key: "testIntKey"
+              attributes:
+                - { name: testAttrName, type: UInt32, null_value: 0 }
+          test2:
+            name: test_dict
+            odbc_source:
+              connection_string: "DSN=testdb"
+              source_table: "dict_source"
+            lifetime:
+              min: 300
+              max: 360
+            layout: complex_key_hashed
+            structure:
+              key:
+                attributes:
+                  - { name: testAttrComplexName, type: String }
+              attributes:
+                - { name: testAttrName, type: String, null_value: "" }
+      clickhouse_dbs_custom:
+         - { name: testu1 }
+         - { name: testu2, state:present }
+         - { name: testu3, state:absent }
+    clickhouse_clusters:
+      your_cluster_name:
+       shard_1:
+          - { host: "db_host_1", port: 9000 }
+          - { host: "db_host_2", port: 9000 }
+       shard_2:
+          - { host: "db_host_3", port: 9000 }
+          - { host: "db_host_4", port: 9000 }        
+    clickhouse_zookeeper_nodes:
+      - { host: "zoo_host_1", port: 2181 }
+      - { host: "zoo_host_2", port: 2181 }
+      - { host: "zoo_host_3", port: 2181 }
+    roles:
+      - alexeysetevoi.clickhouse
