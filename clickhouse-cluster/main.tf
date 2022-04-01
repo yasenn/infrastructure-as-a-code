@@ -97,10 +97,10 @@ all:
 vars:
     ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
-#     clickhouse_hosts:
-#     %{ for index, node in yandex_compute_instance.clickhouse ~}
-# - host: ${ node.name }
-#       id: ${ index }
+    clickhouse_hosts:
+    %{ for index, node in yandex_compute_instance.clickhouse ~}
+- host: ${ node.name }
+      id: ${ index }
     %{ endfor ~}
 EOT
 }
