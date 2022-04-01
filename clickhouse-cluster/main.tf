@@ -66,6 +66,6 @@ data "template_file" "inventory_yml" {
   template = file("inventory_yml.tmpl")
   count    = length(yandex_compute_instance.clickhouse)
   vars = {
-    public_ip           = element(yandex_compute_instance.clickhouse[*].network_interface.0.nat_ip_address, count.index)
+    public_ip = element(yandex_compute_instance.clickhouse[*].network_interface.0.nat_ip_address, count.index)
   }
 }
