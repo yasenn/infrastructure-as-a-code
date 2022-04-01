@@ -97,7 +97,25 @@ all:
 vars:
     ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    clickhouse_hosts:
+    clickhouse_clusters:
+      your_cluster_name:
+       shard_1:
+    %{ for index, node in yandex_compute_instance.clickhouse ~}
+          - { host: "${ node.name }", port: 9000 }
+    %{ endfor ~}
+       shard_2:
+    %{ for index, node in yandex_compute_instance.clickhouse ~}
+          - { host: "${ node.name }", port: 9000 }
+    %{ endfor ~}
+       shard_3:
+    %{ for index, node in yandex_compute_instance.clickhouse ~}
+          - { host: "${ node.name }", port: 9000 }
+    %{ endfor ~}     
+    clickhouse_zookeeper_nodes:
+    %{ for index, node in yandex_compute_instance.clickhouse ~}
+      - { host: "${ node.name }", port: 2181 }
+    %{ endfor ~}
+    zookeeper_hosts:
     %{ for index, node in yandex_compute_instance.clickhouse ~}
 - host: ${ node.name }
       id: ${ index }
