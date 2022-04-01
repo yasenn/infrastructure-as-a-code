@@ -3,10 +3,10 @@ data "yandex_compute_image" family_images_linux {
 }
 
 resource "yandex_compute_instance" "clickhouse" {
-
-  name        = "clickhouse"
+  count       = 3
+  name        = "clickhouse${count.index}"
   platform_id = "standard-v3"
-  hostname    = var.hostname
+  hostname    = "clickhouse${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
   resources {
