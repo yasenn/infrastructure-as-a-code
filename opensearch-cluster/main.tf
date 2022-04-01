@@ -170,6 +170,7 @@ ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 domain_name=opensearch.local
 os_download_url=https://artifacts.opensearch.org/releases/bundle/opensearch
+os_version="1.2.3"
   EOT
 }
 
