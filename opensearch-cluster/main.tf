@@ -168,7 +168,7 @@ ${ node.name }
 [all:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
-domain_name: opensearch.local
+domain_name=opensearch.local
   EOT
 }
 
