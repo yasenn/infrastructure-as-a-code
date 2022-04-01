@@ -1,0 +1,39 @@
+all:
+  children:
+    clickhouse_cluster:
+      hosts:
+        clickhouse0:
+          ansible_host: 51.250.108.232
+        clickhouse1:
+          ansible_host: 51.250.108.201
+        clickhouse2:
+          ansible_host: 51.250.103.70
+  vars:
+    ansible_user:  ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    clickhouse_clusters:
+      your_cluster_name:
+       shard_1:
+              - { host: "clickhouse0", port: 9000 }
+              - { host: "clickhouse1", port: 9000 }
+              - { host: "clickhouse2", port: 9000 }
+           shard_2:
+              - { host: "clickhouse0", port: 9000 }
+              - { host: "clickhouse1", port: 9000 }
+              - { host: "clickhouse2", port: 9000 }
+           shard_3:
+              - { host: "clickhouse0", port: 9000 }
+              - { host: "clickhouse1", port: 9000 }
+              - { host: "clickhouse2", port: 9000 }
+        clickhouse_zookeeper_nodes:
+          - { host: "clickhouse0", port: 2181 }
+          - { host: "clickhouse1", port: 2181 }
+          - { host: "clickhouse2", port: 2181 }
+        zookeeper_hosts:
+    - host: clickhouse0
+      id: 0
+    - host: clickhouse1
+      id: 1
+    - host: clickhouse2
+      id: 2
+    

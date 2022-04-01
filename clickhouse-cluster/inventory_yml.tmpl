@@ -1,10 +1,6 @@
 all:
   children:
-    clickhouse:
+    clickhouse_cluster:
       hosts:
-        "${hostname}":
-          ansible_host: "${public_ip}"
-  vars:
-    clickhouse_external_url: "https://${hostname}.${public_ip}.${domain}"
-    ansible_user:  ubuntu
-    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+        clickhouse0:
+          ansible_host: ${public_ip}
