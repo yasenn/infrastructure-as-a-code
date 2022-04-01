@@ -173,6 +173,7 @@ os_download_url=https://artifacts.opensearch.org/releases/bundle/opensearch
 os_version="1.2.3"
 os_user=opensearch
 cluster_type=multi-node
+os_cluster_name=opensearch
   EOT
 }
 
