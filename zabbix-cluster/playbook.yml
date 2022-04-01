@@ -2,18 +2,21 @@
 - name: Install zabbix server and web
   hosts: zabbix
   become: true
-
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
   roles:
-    - role: buluma.bootstrap
-    - role: buluma.selinux
-    - role: robertdebock.container_docs
-    - role: buluma.buildtools
-    - role: buluma.epel
-    - role: buluma.python_pip
-    - role: buluma.openssl
-      openssl_items:
-        - name: apache-httpd
-          common_name: "{{ ansible_fqdn }}"
+    # - role: buluma.bootstrap
+    # - role: buluma.selinux
+    # - role: robertdebock.container_docs
+    # - role: buluma.buildtools
+    # - role: buluma.epel
+    # - role: buluma.python_pip
+    # - role: buluma.openssl
+    #   openssl_items:
+    #     - name: apache-httpd
+    #       common_name: "{{ ansible_fqdn }}"
     - role: buluma.mysql
       mysql_databases:
         - name: zabbix
@@ -25,9 +28,9 @@
           priv: "zabbix.*:ALL"
     - role: buluma.php
     - role: buluma.httpd
-    - role: buluma.ca_certificates
+    # - role: buluma.ca_certificates
     - role: buluma.zabbix_repository
-    - role: buluma.core_dependencies
+    # - role: buluma.core_dependencies
     - role: buluma.zabbix_server
 
     - role: buluma.zabbix_web
