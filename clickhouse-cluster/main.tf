@@ -58,7 +58,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml[*].rendered
+  content  = join(",", data.template_file.inventory_yml[*].rendered)
   filename = "inventory.yml"
 }
 
