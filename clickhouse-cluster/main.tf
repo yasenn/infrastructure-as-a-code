@@ -59,7 +59,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 
 resource "local_file" "host_ini" {
   filename = "host.ini"
-  content = templatefile("inventory_yml.tmpl", { content = tomap({
+  content = templatefile("host_ini.tmpl", { content = tomap({
     for index, node in yandex_compute_instance.clickhouse:
       index => node.network_interface.0.nat_ip_address
     })
