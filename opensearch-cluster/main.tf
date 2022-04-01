@@ -3,10 +3,10 @@ data "yandex_compute_image" family_images_linux {
 }
 
 resource "yandex_compute_instance" "master" {
-  count              = 3
-  name               = "opensearch${count.index}"
+  count              = 1
+  name               = "master${count.index}"
   platform_id        = "standard-v3"
-  hostname           = "opensearch${count.index}"
+  hostname           = "master${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   resources {
     cores  = var.cores
@@ -77,7 +77,7 @@ resource "yandex_compute_instance" "data" {
 }
 
 resource "yandex_compute_instance" "dashboard" {
-  count              = 2
+  count              = 1
   name               = "dashboard${count.index}"
   platform_id        = "standard-v3"
   hostname           = "dashboard${count.index}"
