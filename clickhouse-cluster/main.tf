@@ -57,36 +57,50 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-# # Output values
+# Output values
 # output "public_ip" {
 #   description = "Public IP address for active directory"
-#   value       = yandex_compute_instance.clickhouse.network_interface.0.nat_ip_address
+#   value       = yandex_compute_instance.victoriametrics_cluster[*].network_interface.0.nat_ip_address
 # }
 
 resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
   filename = "host.ini"
+  content = <<-EOT
+[clickhouse_instances]
+%{ for index, node in yandex_compute_instance.clickhouse ~}
+${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+%{ endfor ~}
+
+# [clickhouse-nodes]
+# zoo1 clickhouse_id=1
+# zoo2 clickhouse_id=2
+# zoo3 clickhouse_id=3
+
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+  EOT
 }
 
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.clickhouse.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
-}
 
 resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml.rendered
   filename = "inventory.yml"
-}
-
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.clickhouse.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
+  content = <<-EOT
+all:
+  children:
+    clickhouse_instances:
+      hosts:
+  %{ for index, node in yandex_compute_instance.clickhouse ~}
+      ${ node.name }:
+          ansible_host: ${ node.network_interface.0.nat_ip_address }
+  %{ endfor ~}
+vars:
+    ansible_user:  ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
+#     clickhouse_hosts:
+#     %{ for index, node in yandex_compute_instance.clickhouse ~}
+# - host: ${ node.name }
+#       id: ${ index }
+    %{ endfor ~}
+EOT
 }
