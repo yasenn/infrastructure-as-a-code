@@ -66,7 +66,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
-[clickhouse_instances]
+[clickhouse_cluster]
 %{ for index, node in yandex_compute_instance.clickhouse ~}
 ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
 %{ endfor ~}
@@ -88,7 +88,7 @@ resource "local_file" "inventory_yml" {
   content = <<-EOT
 all:
   children:
-    clickhouse_instances:
+    clickhouse_cluster:
       hosts:
   %{ for index, node in yandex_compute_instance.clickhouse ~}
       ${ node.name }:

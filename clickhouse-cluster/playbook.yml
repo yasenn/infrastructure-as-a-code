@@ -1,4 +1,4 @@
-  - hosts: clickhouse
+  - hosts: clickhouse_cluster
     remote_user: root
     vars:
       clickhouse_users_custom:
