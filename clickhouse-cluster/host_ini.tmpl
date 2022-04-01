@@ -1,7 +1,8 @@
 [clickhouse]
-"${hostname}" ansible_host="${public_ip}"
+%{~ for index, public_ip in content }
+clickhouse${index} ansible_host=${public_ip} zookeeper_id=${index}
+%{~ endfor }
 
 [clickhouse:vars]
-clickhouse_external_url="https://${hostname}.${public_ip}.${domain}"
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa

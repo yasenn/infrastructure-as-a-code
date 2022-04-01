@@ -57,8 +57,17 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
+resource "local_file" "host_ini" {
+  filename = "host.ini"
+  content = templatefile("inventory_yml.tmpl", { content = tomap({
+    for index, node in yandex_compute_instance.clickhouse:
+      index => node.network_interface.0.nat_ip_address
+    })
+  })
+}
+
+
 resource "local_file" "inventory_yml" {
-  # content  = join(",", data.template_file.inventory_yml[*].rendered)
   content = templatefile("inventory_yml.tmpl", { content = tomap({
     for index, node in yandex_compute_instance.clickhouse:
       index => node.network_interface.0.nat_ip_address
@@ -66,11 +75,3 @@ resource "local_file" "inventory_yml" {
   })
   filename = "inventory.yml"
 }
-
-# data "template_file" "inventory_yml" {
-#   template = file("inventory_yml.tmpl")
-#   count    = length(yandex_compute_instance.clickhouse)
-#   vars = {
-#     public_ip = element(yandex_compute_instance.clickhouse[*].network_interface.0.nat_ip_address, count.index)
-#   }
-# }

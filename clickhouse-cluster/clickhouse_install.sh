@@ -8,6 +8,8 @@ TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy install alexeysetevoi.clickhouse
 # ansible-playbook -i inventory.yml playbook.yml
+git clone https://github.com/dpvpro/ansible-clickhouse-dp.git
+# ansible-playbook -i host.ini ansible-clickhouse-dp/clickhouse.yaml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"
