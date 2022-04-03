@@ -1,8 +1,18 @@
-[clickhouse]
 %{~ for index, public_ip in content }
-clickhouse${index} ansible_host=${public_ip} zookeeper_id=${index}
+zk-${index}.clustering.myserver.ru ansible_host=${public_ip}
+ch${index}.dbpool.myserver.ru ansible_host=${public_ip}
 %{~ endfor }
 
-[clickhouse:vars]
+[zookeepers]
+%{~ for index, public_ip in content }
+${public_ip}
+%{~ endfor }
+
+[clickhouse]
+%{~ for index, public_ip in content }
+${public_ip}
+%{~ endfor }
+
+[all:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa

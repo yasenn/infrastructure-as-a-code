@@ -7,4 +7,4 @@
           state: absent
           regexp: '^127.0.1.1'
     roles:
-      - alexeysetevoi.clickhouse
+      - ansible-clickhouse
