@@ -68,11 +68,9 @@ all:
     clickhouse_clusters:
       your_cluster_name:
         shard_1:
-          - { host: "db_host_1", port: 9000 }
-          - { host: "db_host_2", port: 9000 }
-        shard_2:
-          - { host: "db_host_3", port: 9000 }
-          - { host: "db_host_4", port: 9000 }        
+    %{~ for index, public_ip in content }
+          - { host: "clickhouse${index}", port: 2181 }
+    %{~ endfor }     
     clickhouse_zookeeper_nodes:
 %{~ for index, public_ip in content }
       - { host: "clickhouse${index}", port: 2181 }

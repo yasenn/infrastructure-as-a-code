@@ -5,15 +5,14 @@ ch${index}.dbpool.myserver.ru ansible_host=${public_ip}
 
 [zookeepers]
 %{~ for index, public_ip in content }
-${public_ip}
+zk-${index}.clustering.myserver.ru
 %{~ endfor }
 
 [clickhouse]
 %{~ for index, public_ip in content }
-${public_ip}
+ch${index}.dbpool.myserver.ru
 %{~ endfor }
 
 [all:vars]
 ansible_user=ubuntu
-remote_user=root
 ansible_ssh_private_key_file=~/.ssh/id_rsa
