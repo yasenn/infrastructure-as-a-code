@@ -1,4 +1,10 @@
   - hosts: clickhouse_cluster
     become: true
+    pre_tasks:
+      - name: Remove 127.0.1.1 from /etc/hosts
+        lineinfile:
+          path: /etc/hosts
+          state: absent
+          regexp: '^127.0.1.1'
     roles:
       - alexeysetevoi.clickhouse
