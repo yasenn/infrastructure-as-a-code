@@ -28,7 +28,7 @@ ansible-galaxy install buluma.zabbix_server
 
 ansible-galaxy install buluma.zabbix_web
 
-ansible-playbook -vvv -i inventory.yml playbook.yml
+ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"
