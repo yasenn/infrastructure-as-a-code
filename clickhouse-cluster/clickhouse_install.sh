@@ -9,7 +9,7 @@ TF_IN_AUTOMATION=1 terraform apply -auto-approve
 # ansible-galaxy install git+https://github.com/AlexeySetevoi/ansible-clickhouse.git,master
 # ansible-playbook -i inventory.yml playbook.yml
 git clone https://git.blindage.org/21h/ansible-clickhouse-deploy.git || true
-ansible-playbook -i host.ini ansible-clickhouse-deploy/playbook.yml
+ansible-playbook -i host.ini ansible-clickhouse-deploy/playbook.yml -b
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"
