@@ -28,13 +28,13 @@ resource "yandex_compute_instance" "clickhouse" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "centos:${file("~/.ssh/id_rsa.pub")}"
   }
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = "centos"
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }
