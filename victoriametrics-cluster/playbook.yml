@@ -8,10 +8,10 @@
 
 
 ---
-- hosts: vmstorage,vminsert,vmselect
+- hosts: victoria_cluster
   collections:
     - victoriametrics.cluster
   become: true
   roles:
     - geerlingguy.docker
-    - victoriametrics.cluster.victoria_cluster
+    - victoriametrics.cluster.cluster
