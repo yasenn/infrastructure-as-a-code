@@ -28,6 +28,21 @@ ansible-galaxy install buluma.zabbix_server
 
 ansible-galaxy install buluma.zabbix_web
 
+ansible-galaxy install robertdebock.bootstrap
+ansible-galaxy install robertdebock.selinux
+ansible-galaxy install robertdebock.container_docs
+ansible-galaxy install robertdebock.buildtools
+ansible-galaxy install robertdebock.epel
+ansible-galaxy install robertdebock.python_pip
+ansible-galaxy install robertdebock.openssl
+ansible-galaxy install robertdebock.mysql
+ansible-galaxy install robertdebock.php
+ansible-galaxy install robertdebock.httpd
+ansible-galaxy install robertdebock.ca_certificates
+ansible-galaxy install robertdebock.zabbix_repository
+ansible-galaxy install robertdebock.core_dependencies
+ansible-galaxy install robertdebock.zabbix_server
+ansible-galaxy install robertdebock.zabbix_web
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")

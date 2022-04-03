@@ -19,18 +19,19 @@
         pre_reboot_delay: 0
         post_reboot_delay: 30
         test_command: whoami
+
   roles:
-    # - role: buluma.bootstrap
-    # - role: buluma.selinux
-    # - role: robertdebock.container_docs
-    # - role: buluma.buildtools
-    # - role: buluma.epel
-    - role: buluma.python_pip
-    # - role: buluma.openssl
-    #   openssl_items:
-    #     - name: apache-httpd
-    #       common_name: "{{ ansible_fqdn }}"
-    - role: buluma.mysql
+    - role: robertdebock.bootstrap
+    - role: robertdebock.selinux
+    - role: robertdebock.container_docs
+    - role: robertdebock.buildtools
+    - role: robertdebock.epel
+    - role: robertdebock.python_pip
+    - role: robertdebock.openssl
+      openssl_items:
+        - name: apache-httpd
+          common_name: "{{ ansible_fqdn }}"
+    - role: robertdebock.mysql
       mysql_databases:
         - name: zabbix
           encoding: utf8
@@ -39,16 +40,10 @@
         - name: zabbix
           password: zabbix
           priv: "zabbix.*:ALL"
-    - role: buluma.php
-    - role: buluma.httpd
-    # - role: buluma.ca_certificates
-    - role: buluma.zabbix_repository
-    # - role: buluma.core_dependencies
-    - role: buluma.zabbix_server
-
-    - role: buluma.zabbix_web
-      # You can provision Zabbix groups.
-      # Most options map directly to the documentation:
-      # https://docs.ansible.com/ansible/latest/modules/zabbix_group_module.html
-      zabbix_web_groups:
-        - name: Linux servers
+    - role: robertdebock.php
+    - role: robertdebock.httpd
+    - role: robertdebock.ca_certificates
+    - role: robertdebock.zabbix_repository
+    - role: robertdebock.core_dependencies
+    - role: robertdebock.zabbix_server
+    - role: robertdebock.zabbix_web
