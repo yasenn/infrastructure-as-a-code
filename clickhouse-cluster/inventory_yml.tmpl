@@ -69,7 +69,7 @@ all:
       your_cluster_name:
         shard_1:
     %{~ for index, public_ip in content }
-          - { host: "clickhouse${index}", port: 2181 }
+          - { host: "clickhouse${index}", port: 9000 }
     %{~ endfor }     
     clickhouse_zookeeper_nodes:
 %{~ for index, public_ip in content }
