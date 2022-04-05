@@ -27,7 +27,6 @@ all:
       - { host: "clickhouse${index}", port: 2181 }
 %{~ endfor }
     zookeeper_hosts:
-    %{ for index, public_ip in content ~}
-- host: zookeeper${index}
-      id: ${ index }
-    %{ endfor ~}
+%{ for index, public_ip in content ~}
+      - { host: "clickhouse${index}", id: ${ index } }
+%{ endfor ~}
