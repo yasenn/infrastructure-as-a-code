@@ -31,3 +31,10 @@
         regexp: '^127.0.1.1'
   roles:
     - ansible-clickhouse
+  post_tasks:
+    - name: Check clickhouse cluster status
+      shell: >
+        for node in `echo "select distinct host_address from system.clusters where host_name !='localhost'" | curl 'http://localhost:8123/' --silent --data-binary @-`; do curl "http://$node:8123/" --silent ; done | sort -u
+      register: check_connection_to_node_cluster
+    - name: Check connection to node cluster
+      debug: msg={{ check_connection_to_node_cluster.stdout }}
