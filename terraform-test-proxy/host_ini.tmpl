@@ -1,0 +1,6 @@
+[squid]
+"${hostname}" ansible_host="${public_ip}"
+
+[squid:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=~/.ssh/id_rsa
