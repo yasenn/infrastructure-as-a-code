@@ -1,13 +1,34 @@
-  - hosts: clickhouse_cluster
-    become: true
-    pre_tasks:
-      - name: Update apt cache.
-        apt: update_cache=true cache_valid_time=600
-        when: ansible_os_family == 'Debian'
-      - name: Remove 127.0.1.1 from /etc/hosts
-        lineinfile:
-          path: /etc/hosts
-          state: absent
-          regexp: '^127.0.1.1'
-    roles:
-      - ansible-clickhouse
+---
+- hosts: zookeepers
+  become: true
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+    - name: Remove 127.0.1.1 from /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.1.1'
+  roles:
+    - role: buluma.java
+    - role: idealista.zookeeper_role
+      zookeeper_hosts: "{{groups['zookeepers']}}"
+  post_tasks:
+    - name: Check zookeepers cluster status
+      shell: echo stat | nc 127.0.0.1 2181 | grep Mode | grep -E -w  "leader|follower"
+
+
+# - hosts: clickhouse_cluster
+#   become: true
+#   pre_tasks:
+#     - name: Update apt cache.
+#       apt: update_cache=true cache_valid_time=600
+#       when: ansible_os_family == 'Debian'
+#     - name: Remove 127.0.1.1 from /etc/hosts
+#       lineinfile:
+#         path: /etc/hosts
+#         state: absent
+#         regexp: '^127.0.1.1'
+#   roles:
+#     - ansible-clickhouse

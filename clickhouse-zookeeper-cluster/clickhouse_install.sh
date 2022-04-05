@@ -6,6 +6,8 @@ start_time=`date +%s`
 date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
+ansible-galaxy install buluma.java
+ansible-galaxy install idealista.zookeeper_role
 ansible-galaxy install git+https://github.com/AlexeySetevoi/ansible-clickhouse.git,master
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
