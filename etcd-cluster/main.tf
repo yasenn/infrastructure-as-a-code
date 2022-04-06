@@ -71,3 +71,12 @@ ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
   EOT
 }
+
+resource "local_file" "inventory_yml" {
+  content = templatefile("inventory_yml.tmpl", { content = tomap({
+    for index, node in yandex_compute_instance.etcd-cluster:
+      index => node.network_interface.0.nat_ip_address
+    })
+  })
+  filename = "inventory.yml"
+}
