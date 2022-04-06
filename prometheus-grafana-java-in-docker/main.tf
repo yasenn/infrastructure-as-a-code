@@ -112,22 +112,6 @@ output "public_ip_javaindocker" {
   value       = yandex_compute_instance.javaindocker.network_interface.0.nat_ip_address
 }
 
-resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
-  filename = "host.ini"
-}
-
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    hostname_prometheus    = var.hostname_prometheus
-    hostname_javaindocker  = var.hostname_javaindocker
-    public_ip_prometheus   = yandex_compute_instance.prometheus.network_interface.0.nat_ip_address
-    public_ip_javaindocker = yandex_compute_instance.javaindocker.network_interface.0.nat_ip_address
-    domain                 = var.domain
-  }
-}
-
 resource "local_file" "inventory_yml" {
   content  = data.template_file.inventory_yml.rendered
   filename = "inventory.yml"
