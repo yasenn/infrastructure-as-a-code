@@ -8,15 +8,36 @@
     - name: Update apt cache.
       apt: update_cache=true cache_valid_time=600
       when: ansible_os_family == 'Debian'
+    - name: Install python2.7-minimal
+      package:
+        name: python2.7-minimal
+        state: present
     - name: Remove 127.0.1.1 from /etc/hosts
       lineinfile:
         path: /etc/hosts
         state: absent
         regexp: '^127.0.1.1'
-    - name: Install python2.7-minimal
-      ansible.builtin.package:
-        name: python2.7-minimal
+    - name: 'Add association between external ip and ipa domain into etc/hosts'
+      lineinfile:
+        path: '/etc/hosts'
+        line: '{{ ipaserver_ip_addresses|first }} {{ ipaserver_domain }}'
+        insertbefore: BOF
+    - name: Ensure `dnsutils` is available.
+      package:
+        name: dnsutils
         state: present
+    - name: Retrieve hostname from IP address.
+      command: dig +short +onesoa -x "{{ ansible_default_ipv4.address }}"
+      register: dig_out
+    - name: Provide reverse_hostname fact.
+      set_fact:
+        reverse_hostname: "{{ dig_out.stdout_lines[0][:-1] }}"
+    - name: Print reverse_hostname
+      debug:
+        var: reverse_hostname
+    - name: Set hostname as ipaserver_domain
+      hostname:
+        name: "{{ ipaserver_domain }}"
   roles:
     - role: freeipa.ansible_freeipa.ipaserver
       state: present
