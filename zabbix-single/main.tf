@@ -63,20 +63,6 @@ output "public_ip" {
   value       = yandex_compute_instance.zabbix.network_interface.0.nat_ip_address
 }
 
-resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
-  filename = "host.ini"
-}
-
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.zabbix.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
-}
-
 resource "local_file" "inventory_yml" {
   content  = data.template_file.inventory_yml.rendered
   filename = "inventory.yml"
