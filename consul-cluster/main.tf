@@ -50,25 +50,6 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-resource "local_file" "host_ini" {
-  filename = "host.ini"
-  content = <<-EOT
-[consul_instances]
-%{ for index, node in yandex_compute_instance.consul ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
-%{ endfor ~}
-
-# [consul-nodes]
-# zoo1 consul_id=1
-# zoo2 consul_id=2
-# zoo3 consul_id=3
-
-[all:vars]
-ansible_user=ubuntu
-ansible_ssh_private_key_file=~/.ssh/id_rsa
-  EOT
-}
-
 resource "local_file" "inventory_yml" {
   filename = "inventory.yml"
   content = <<-EOT
