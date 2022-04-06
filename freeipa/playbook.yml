@@ -1,4 +1,17 @@
-  - hosts: freeipa
-    become: true
-    roles:
-      - timorunge.freeipa_server
+---
+- name: Playbook to configure IPA servers
+  hosts: ipaserver
+  become: true
+  collections:
+    - freeipa.ansible_freeipa
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+    - name: Install python2.7-minimal
+      ansible.builtin.package:
+        name: python2.7-minimal
+        state: present
+  roles:
+    - role: freeipa.ansible_freeipa.ipaserver
+      state: present
