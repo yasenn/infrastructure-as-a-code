@@ -125,12 +125,6 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-# Output values
-# output "public_ip" {
-#   description = "Public IP address for active directory"
-#   value       = yandex_compute_instance.victoriametrics_cluster[*].network_interface.0.nat_ip_address
-# }
-
 resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT

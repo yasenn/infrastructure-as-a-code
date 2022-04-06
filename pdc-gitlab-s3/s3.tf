@@ -11,7 +11,6 @@ resource "yandex_storage_bucket" "gitlab-backup-anton-patsev" {
   bucket     = "gitlab-backup-anton-patsev"
 }
 
-## Output values
 output "access_key_sa_storage_admin_for_test_bucket" {
   description = "access_key sa-storage-admin for gitlab-backup-anton-patsev"
   value       = yandex_storage_bucket.gitlab-backup-anton-patsev.access_key

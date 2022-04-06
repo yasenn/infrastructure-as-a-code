@@ -71,7 +71,6 @@ resource "yandex_vpc_subnet" "subnet-pdc-01" {
   v4_cidr_blocks = ["192.168.1.0/24"]
 }
 
-# Output values
 output "public_ip" {
   description = "Public IP address for active directory"
   value       = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
