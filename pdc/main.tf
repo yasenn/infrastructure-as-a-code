@@ -77,22 +77,6 @@ output "public_ip" {
   value       = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
 }
 
-resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
-  filename = "host.ini"
-}
-
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    pdc_admin_password = var.pdc_admin_password
-    pdc_hostname       = var.pdc_hostname
-    pdc_domain         = var.pdc_domain
-    pdc_domain_path    = var.pdc_domain_path
-    public_ip          = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
-  }
-}
-
 resource "local_file" "inventory_yml" {
   content  = data.template_file.inventory_yml.rendered
   filename = "inventory.yml"
