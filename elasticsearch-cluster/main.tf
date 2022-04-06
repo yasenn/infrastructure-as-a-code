@@ -50,12 +50,6 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-# Output values
-# output "public_ip" {
-#   description = "Public IP address for active directory"
-#   value       = yandex_compute_instance.victoriametrics_cluster[*].network_interface.0.nat_ip_address
-# }
-
 resource "local_file" "host_ini" {
   filename = "host.ini"
   content = <<-EOT
@@ -71,24 +65,28 @@ ansible_ssh_private_key_file=~/.ssh/id_rsa
 }
 
 
+# resource "local_file" "inventory_yml" {
+#   filename = "inventory.yml"
+#   content = <<-EOT
+# all:
+#   children:
+#     elasticsearch:
+#       hosts:
+#   %{ for index, node in yandex_compute_instance.elasticsearch ~}
+#       ${ node.name }:
+#           ansible_host: ${ node.network_interface.0.nat_ip_address }
+#   %{ endfor ~}
+# vars:
+#     ansible_user:  ubuntu
+#     ansible_ssh_private_key_file: ~/.ssh/id_rsa
+# EOT
+# }
+
 resource "local_file" "inventory_yml" {
+  content = templatefile("inventory_yml.tmpl", { content = tomap({
+    for index, node in yandex_compute_instance.elasticsearch:
+      index => node.network_interface.0.nat_ip_address
+    })
+  })
   filename = "inventory.yml"
-  content = <<-EOT
-all:
-  children:
-    elasticsearch:
-      hosts:
-  %{ for index, node in yandex_compute_instance.elasticsearch ~}
-      ${ node.name }:
-          ansible_host: ${ node.network_interface.0.nat_ip_address }
-  %{ endfor ~}
-vars:
-    ansible_user:  ubuntu
-    ansible_ssh_private_key_file: ~/.ssh/id_rsa
-    elasticsearch_hosts:
-    %{ for index, node in yandex_compute_instance.elasticsearch ~}
-- host: ${ node.name }
-      id: ${ index }
-    %{ endfor ~}
-EOT
 }

@@ -8,7 +8,7 @@ TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy install buluma.java
 ansible-galaxy install elastic.elasticsearch,v7.17.0
-ansible-playbook -i host.ini playbook.yml
+ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
 echo "###############"

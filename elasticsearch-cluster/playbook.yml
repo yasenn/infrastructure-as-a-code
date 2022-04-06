@@ -1,5 +1,5 @@
 ---
-- hosts: elasticsearch
+- hosts: elasticsearch_cluster
   become: true
   pre_tasks:
     - name: Update apt cache.
@@ -7,7 +7,7 @@
       when: ansible_os_family == 'Debian'
     - name: Setting nodes IPs (instead 'ansible_host' you can use the folloving variables as well ansible_fqdn, ec2_private_ip_address or ansible_nodename)
       set_fact:
-        join_list: "{{ groups['elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
+        join_list: "{{ groups['elasticsearch_cluster'] | map('extract', hostvars, ['ansible_host']) | list }}"
   roles:
     - role: buluma.java
     - role: elastic.elasticsearch
@@ -32,7 +32,7 @@
     es_plugins:
      - plugin: ingest-attachment
 
-- hosts: elasticsearch
+- hosts: elasticsearch_cluster
   become: true
   pre_tasks:
     - name: Update apt cache.
@@ -40,7 +40,7 @@
       when: ansible_os_family == 'Debian'
     - name: Setting nodes IPs (instead 'ansible_host' you can use the folloving variables as well ansible_fqdn, ec2_private_ip_address or ansible_nodename)
       set_fact:
-        join_list: "{{ groups['elasticsearch'] | map('extract', hostvars, ['ansible_host']) | list }}"
+        join_list: "{{ groups['elasticsearch_cluster'] | map('extract', hostvars, ['ansible_host']) | list }}"
   roles:
     - role: buluma.java
     - role: elastic.elasticsearch
