@@ -56,24 +56,24 @@ resource "yandex_vpc_subnet" "subnet-1" {
 #   value       = yandex_compute_instance.victoriametrics_cluster[*].network_interface.0.nat_ip_address
 # }
 
-resource "local_file" "host_ini" {
-  filename = "host.ini"
-  content = <<-EOT
-[zookeepers]
-%{ for index, node in yandex_compute_instance.zookeeper ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
-%{ endfor ~}
+# resource "local_file" "host_ini" {
+#   filename = "host.ini"
+#   content = <<-EOT
+# [zookeepers]
+# %{ for index, node in yandex_compute_instance.zookeeper ~}
+# ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
+# %{ endfor ~}
 
-# [zookeeper-nodes]
-# zoo1 zookeeper_id=1
-# zoo2 zookeeper_id=2
-# zoo3 zookeeper_id=3
+# # [zookeeper-nodes]
+# # zoo1 zookeeper_id=1
+# # zoo2 zookeeper_id=2
+# # zoo3 zookeeper_id=3
 
-[all:vars]
-ansible_user=ubuntu
-ansible_ssh_private_key_file=~/.ssh/id_rsa
-  EOT
-}
+# [all:vars]
+# ansible_user=ubuntu
+# ansible_ssh_private_key_file=~/.ssh/id_rsa
+#   EOT
+# }
 
 
 resource "local_file" "inventory_yml" {
