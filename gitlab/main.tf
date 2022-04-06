@@ -58,24 +58,9 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-# Output values
 output "public_ip" {
   description = "Public IP address for active directory"
   value       = yandex_compute_instance.gitlab.network_interface.0.nat_ip_address
-}
-
-resource "local_file" "host_ini" {
-  content  = data.template_file.host_ini.rendered
-  filename = "host.ini"
-}
-
-data "template_file" "host_ini" {
-  template = file("host_ini.tmpl")
-  vars = {
-    gitlab_hostname = var.gitlab_hostname
-    public_ip       = yandex_compute_instance.gitlab.network_interface.0.nat_ip_address
-    domain          = var.domain
-  }
 }
 
 resource "local_file" "inventory_yml" {
