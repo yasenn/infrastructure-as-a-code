@@ -6,5 +6,5 @@ all:
           ansible_host: "${public_ip}"
   vars:
     victoriametrics_external_url: "https://${hostname}.${public_ip}.${domain}"
-    ansible_user:  ubuntu
+    ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa

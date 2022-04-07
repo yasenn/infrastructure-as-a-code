@@ -28,13 +28,13 @@ resource "yandex_compute_instance" "prometheus" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
   }
 
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = var.ssh_user
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }
@@ -70,6 +70,7 @@ resource "local_file" "inventory_yml" {
 data "template_file" "inventory_yml" {
   template = file("inventory_yml.tmpl")
   vars = {
+    ssh_user            = var.ssh_user
     hostname            = var.hostname
     public_ip           = yandex_compute_instance.prometheus.network_interface.0.nat_ip_address
     domain              = var.domain

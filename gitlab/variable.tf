@@ -24,6 +24,11 @@ variable "family_images_linux" {
   description = "Family of images gitlab in Yandex Cloud. Example: ubuntu-2004-lts"
 }
 
+variable "ssh_user" {
+  type        = string
+  description = "ssh_user"
+}
+
 variable "cores" {
   type        = string
   description = "Cores CPU. Examples: 2, 4, 6, 8 and more"

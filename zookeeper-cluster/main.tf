@@ -24,12 +24,12 @@ resource "yandex_compute_instance" "zookeeper" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
   }
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = var.ssh_user
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }

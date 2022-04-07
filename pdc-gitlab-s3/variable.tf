@@ -29,6 +29,11 @@ variable "family_images_linux" {
   description = "Family of images gitlab in Yandex Cloud. Example: ubuntu-2004-lts"
 }
 
+variable "ssh_user" {
+  type        = string
+  description = "ssh_user"
+}
+
 variable "windows_password" {
   type        = string
   description = "Password for Windows"

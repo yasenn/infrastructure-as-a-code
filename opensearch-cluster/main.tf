@@ -24,12 +24,12 @@ resource "yandex_compute_instance" "master" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
   }
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = var.ssh_user
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }
@@ -61,12 +61,12 @@ resource "yandex_compute_instance" "data" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
   }
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = var.ssh_user
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }
@@ -98,12 +98,12 @@ resource "yandex_compute_instance" "dashboard" {
     nat       = true
   }
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
   }
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
-      user        = "ubuntu"
+      user        = var.ssh_user
       host        = self.network_interface.0.nat_ip_address
       private_key = file("~/.ssh/id_rsa")
     }
@@ -186,7 +186,7 @@ all:
           ansible_host: ${ node.network_interface.0.nat_ip_address }
   %{ endfor ~}
 vars:
-    ansible_user:  ubuntu
+    ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
     opensearch_hosts:
     %{ for index, node in yandex_compute_instance.master ~}
