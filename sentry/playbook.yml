@@ -1,4 +1,4 @@
   - hosts: sentry
     become: true
     roles:
-      - mrlesmithjr.sentry
+      - ansible-role-sentry
