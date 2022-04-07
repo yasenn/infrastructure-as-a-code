@@ -5,13 +5,6 @@
   collections:
     - freeipa.ansible_freeipa
   pre_tasks:
-    - name: Update apt cache.
-      apt: update_cache=true cache_valid_time=600
-      when: ansible_os_family == 'Debian'
-    - name: Install python2.7-minimal
-      package:
-        name: python2.7-minimal
-        state: present
     - name: Remove 127.0.1.1 from /etc/hosts
       lineinfile:
         path: /etc/hosts
@@ -22,9 +15,9 @@
         path: '/etc/hosts'
         line: '{{ ipaserver_ip_addresses|first }} {{ ipaserver_domain }}'
         insertbefore: BOF
-    - name: Ensure `dnsutils` is available.
+    - name: Ensure `bind-utils` is available.
       package:
-        name: dnsutils
+        name: bind-utils
         state: present
     - name: Retrieve hostname from IP address.
       command: dig +short +onesoa -x "{{ ansible_default_ipv4.address }}"
