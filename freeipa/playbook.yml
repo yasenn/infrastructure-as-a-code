@@ -5,6 +5,8 @@
   collections:
     - freeipa.ansible_freeipa
   pre_tasks:
+    - set_fact:
+        ipaserver_realm: "{{ ipaserver_realm|upper }}"
     - name: Remove 127.0.1.1 from /etc/hosts
       lineinfile:
         path: /etc/hosts
@@ -31,6 +33,9 @@
     - name: Set hostname as ipaserver_domain
       hostname:
         name: "{{ ipaserver_domain }}"
+    - name: Disable SELinux
+      ansible.posix.selinux:
+        state: disabled
   roles:
     - role: freeipa.ansible_freeipa.ipaserver
       state: present
