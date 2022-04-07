@@ -186,7 +186,7 @@ all:
           ansible_host: ${ node.network_interface.0.nat_ip_address }
   %{ endfor ~}
 vars:
-    ansible_user:  ${ssh_user}
+    ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
     opensearch_hosts:
     %{ for index, node in yandex_compute_instance.master ~}
