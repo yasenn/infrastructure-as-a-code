@@ -16,6 +16,8 @@
   post_tasks:
     - name: Check zookeepers cluster status
       shell: echo stat | nc 127.0.0.1 2181 | grep Mode | grep -E -w  "leader|follower"
+      retries: 3
+      delay: 10
 
 
 - hosts: clickhouse_cluster

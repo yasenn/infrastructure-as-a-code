@@ -58,10 +58,11 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl", { content = tomap({
-    for index, node in yandex_compute_instance.clickhouse:
-      index => node.network_interface.0.nat_ip_address
-    })
-  })
+  content = templatefile("inventory_yml.tmpl",
+    {
+      ssh_user             = var.ssh_user
+      clickhouse_public_ip = yandex_compute_instance.clickhouse.*.network_interface.0.nat_ip_address
+    }
+  )
   filename = "inventory.yml"
 }
