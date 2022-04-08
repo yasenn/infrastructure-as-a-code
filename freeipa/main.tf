@@ -66,7 +66,7 @@ resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
       ssh_user            = var.ssh_user
-      freeipa_public_ip   = yandex_compute_instance.freeipa.*.network_interface.0.nat_ip_address
+      freeipa_public_ip   = yandex_compute_instance.freeipa.network_interface.0.nat_ip_address
       hostname            = var.hostname
       domain              = var.domain
     }
