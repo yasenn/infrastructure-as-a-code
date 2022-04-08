@@ -1,8 +1,8 @@
-data "yandex_compute_image" family_images_windows {
+data "yandex_compute_image" "family_images_windows" {
   family = var.family_images_windows
 }
 
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
@@ -15,9 +15,9 @@ data "template_file" "userdata_win" {
 
 resource "yandex_compute_instance" "active_directory" {
 
-  name        = "active-directory"
-  platform_id = "standard-v3"
-  hostname    = var.pdc_hostname
+  name               = "active-directory"
+  platform_id        = "standard-v3"
+  hostname           = var.pdc_hostname
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   zone               = "ru-central1-b"
 
@@ -66,9 +66,9 @@ resource "yandex_compute_instance" "active_directory" {
 
 resource "yandex_compute_instance" "gitlab" {
 
-  name        = "gitlab"
-  platform_id = "standard-v3"
-  hostname    = var.gitlab_hostname
+  name               = "gitlab"
+  platform_id        = "standard-v3"
+  hostname           = var.gitlab_hostname
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   zone               = "ru-central1-b"
 
@@ -138,20 +138,20 @@ resource "local_file" "inventory_yml" {
 data "template_file" "inventory_yml" {
   template = file("inventory_yml.tmpl")
   vars = {
-    windows_password      = var.windows_password
-    pdc_hostname          = var.pdc_hostname
-    pdc_domain            = var.pdc_domain
-    pdc_domain_path       = var.pdc_domain_path
-    public_ip_pdc         = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
-    gitlab_hostname       = var.gitlab_hostname
-    public_ip_gitlab      = yandex_compute_instance.gitlab.network_interface.0.nat_ip_address
-    letsencrypt_domain    = var.letsencrypt_domain
-    pswd_gitlab_ldap_sync = var.pswd_gitlab_ldap_sync
-    pswd_test_user_in_pdc = var.pswd_test_user_in_pdc
-    aws_access_key_id     = yandex_storage_bucket.gitlab-backup-anton-patsev.access_key
-    aws_secret_access_key = yandex_storage_bucket.gitlab-backup-anton-patsev.secret_key
+    windows_password          = var.windows_password
+    pdc_hostname              = var.pdc_hostname
+    pdc_domain                = var.pdc_domain
+    pdc_domain_path           = var.pdc_domain_path
+    public_ip_pdc             = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
+    gitlab_hostname           = var.gitlab_hostname
+    public_ip_gitlab          = yandex_compute_instance.gitlab.network_interface.0.nat_ip_address
+    letsencrypt_domain        = var.letsencrypt_domain
+    pswd_gitlab_ldap_sync     = var.pswd_gitlab_ldap_sync
+    pswd_test_user_in_pdc     = var.pswd_test_user_in_pdc
+    aws_access_key_id         = yandex_storage_bucket.gitlab-backup-anton-patsev.access_key
+    aws_secret_access_key     = yandex_storage_bucket.gitlab-backup-anton-patsev.secret_key
     gitlab_backup_bucket_name = "gitlab-backup-anton-patsev"
-    
+
   }
 }
 

@@ -1,4 +1,4 @@
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
@@ -127,37 +127,37 @@ resource "yandex_vpc_subnet" "subnet-1" {
 
 resource "local_file" "host_ini" {
   filename = "host.ini"
-  content = <<-EOT
-%{ for index, node in yandex_compute_instance.master ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address } roles=master,ingest
-%{ endfor ~}
-%{ for index, node in yandex_compute_instance.data ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address } roles=data
-%{ endfor ~}
-%{ for index, node in yandex_compute_instance.dashboard ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
+  content  = <<-EOT
+%{for index, node in yandex_compute_instance.master~}
+${node.name} ansible_host=${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address} roles=master,ingest
+%{endfor~}
+%{for index, node in yandex_compute_instance.data~}
+${node.name} ansible_host=${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address} roles=data
+%{endfor~}
+%{for index, node in yandex_compute_instance.dashboard~}
+${node.name} ansible_host=${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address}
+%{endfor~}
 
 [os-cluster]
-%{ for index, node in yandex_compute_instance.master ~}
-${ node.name }
-%{ endfor ~}
-%{ for index, node in yandex_compute_instance.data ~}
-${ node.name }
-%{ endfor ~}
-%{ for index, node in yandex_compute_instance.dashboard ~}
-${ node.name }
-%{ endfor ~}
+%{for index, node in yandex_compute_instance.master~}
+${node.name}
+%{endfor~}
+%{for index, node in yandex_compute_instance.data~}
+${node.name}
+%{endfor~}
+%{for index, node in yandex_compute_instance.dashboard~}
+${node.name}
+%{endfor~}
 
 [master]
-%{ for index, node in yandex_compute_instance.master ~}
-${ node.name }
-%{ endfor ~}
+%{for index, node in yandex_compute_instance.master~}
+${node.name}
+%{endfor~}
 
 [dashboard]
-%{ for index, node in yandex_compute_instance.dashboard ~}
-${ node.name }
-%{ endfor ~}
+%{for index, node in yandex_compute_instance.dashboard~}
+${node.name}
+%{endfor~}
 
 [all:vars]
 ansible_user=ubuntu
@@ -176,22 +176,22 @@ xmx_value=8
 
 resource "local_file" "inventory_yml" {
   filename = "inventory.yml"
-  content = <<-EOT
+  content  = <<-EOT
 all:
   children:
     opensearch:
       hosts:
-  %{ for index, node in yandex_compute_instance.master ~}
-      ${ node.name }:
-          ansible_host: ${ node.network_interface.0.nat_ip_address }
-  %{ endfor ~}
+  %{for index, node in yandex_compute_instance.master~}
+      ${node.name}:
+          ansible_host: ${node.network_interface.0.nat_ip_address}
+  %{endfor~}
 vars:
     ansible_user:  ubuntu
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
     opensearch_hosts:
-    %{ for index, node in yandex_compute_instance.master ~}
-- host: ${ node.name }
-      id: ${ index }
-    %{ endfor ~}
+    %{for index, node in yandex_compute_instance.master~}
+- host: ${node.name}
+      id: ${index}
+    %{endfor~}
 EOT
 }

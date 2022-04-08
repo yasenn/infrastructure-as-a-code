@@ -1,4 +1,4 @@
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
@@ -77,8 +77,8 @@ resource "yandex_vpc_subnet" "subnet-1" {
 
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl", { content = tomap({
-    for index, node in yandex_compute_instance.zookeeper:
-      index => node.network_interface.0.nat_ip_address
+    for index, node in yandex_compute_instance.zookeeper :
+    index => node.network_interface.0.nat_ip_address
     })
   })
   filename = "inventory.yml"

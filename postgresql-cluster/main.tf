@@ -1,4 +1,4 @@
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
@@ -89,34 +89,34 @@ resource "yandex_vpc_subnet" "subnet-1" {
 
 resource "local_file" "host_ini" {
   filename = "host.ini"
-  content = <<-EOT
+  content  = <<-EOT
 [etcd_cluster]  # recommendation: 3 or 5-7 nodes
-%{ for node in yandex_compute_instance.master ~}
-${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
-%{ for node in yandex_compute_instance.replica ~}
-${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
+%{for node in yandex_compute_instance.master~}
+${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address}
+%{endfor~}
+%{for node in yandex_compute_instance.replica~}
+${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address}
+%{endfor~}
 
 # if with_haproxy_load_balancing: true (in vars/main.yml)
 [balancers]
-%{ for node in yandex_compute_instance.master ~}
-${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
-%{ for node in yandex_compute_instance.replica ~}
-${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-%{ endfor ~}
+%{for node in yandex_compute_instance.master~}
+${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address}
+%{endfor~}
+%{for node in yandex_compute_instance.replica~}
+${node.network_interface.0.nat_ip_address} ip=${node.network_interface.0.ip_address}
+%{endfor~}
 
 # PostgreSQL nodes
 [master]
-%{ for node in yandex_compute_instance.master ~}
-${ node.network_interface.0.nat_ip_address } hostname=${ node.name } postgresql_exists='false'
-%{ endfor ~}
+%{for node in yandex_compute_instance.master~}
+${node.network_interface.0.nat_ip_address} hostname=${node.name} postgresql_exists='false'
+%{endfor~}
 
 [replica]
-%{ for node in yandex_compute_instance.replica ~}
-${ node.network_interface.0.nat_ip_address } hostname=${ node.name } postgresql_exists='false'
-%{ endfor ~}
+%{for node in yandex_compute_instance.replica~}
+${node.network_interface.0.nat_ip_address} hostname=${node.name} postgresql_exists='false'
+%{endfor~}
 
 [postgres_cluster:children]
 master

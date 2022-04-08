@@ -1,4 +1,4 @@
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
@@ -126,19 +126,19 @@ resource "yandex_vpc_subnet" "subnet-1" {
 
 resource "local_file" "host_ini" {
   filename = "host.ini"
-  content = <<-EOT
+  content  = <<-EOT
 [victoria_storage]
-%{ for node in yandex_compute_instance.vmstorage ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
-%{ endfor ~}
+%{for node in yandex_compute_instance.vmstorage~}
+${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
+%{endfor~}
 [victoria_insert]
-%{ for node in yandex_compute_instance.vminsert ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
-%{ endfor ~}
+%{for node in yandex_compute_instance.vminsert~}
+${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
+%{endfor~}
 [victoria_select]
-%{ for node in yandex_compute_instance.vmselect ~}
-${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address }
-%{ endfor ~}
+%{for node in yandex_compute_instance.vmselect~}
+${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
+%{endfor~}
 
 [victoria_storage:vars]
 vm_role=victoria-storage

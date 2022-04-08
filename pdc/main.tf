@@ -79,11 +79,11 @@ output "public_ip" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
-    pdc_admin_password = var.pdc_admin_password
-    pdc_hostname       = var.pdc_hostname
-    pdc_domain         = var.pdc_domain
-    pdc_domain_path    = var.pdc_domain_path
-    public_ip          = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
+      pdc_admin_password = var.pdc_admin_password
+      pdc_hostname       = var.pdc_hostname
+      pdc_domain         = var.pdc_domain
+      pdc_domain_path    = var.pdc_domain_path
+      public_ip          = yandex_compute_instance.active_directory.network_interface.0.nat_ip_address
     }
   )
   filename = "inventory.yml"

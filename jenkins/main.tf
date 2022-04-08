@@ -1,12 +1,12 @@
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
 resource "yandex_compute_instance" "jenkins" {
 
-  name        = "jenkins"
-  platform_id = "standard-v3"
-  hostname    = var.hostname
+  name               = "jenkins"
+  platform_id        = "standard-v3"
+  hostname           = var.hostname
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   zone               = "ru-central1-b"
 
@@ -66,10 +66,10 @@ output "public_ip" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
-    ssh_user            = var.ssh_user
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.jenkins.network_interface.0.nat_ip_address
-    domain              = var.domain
+      ssh_user  = var.ssh_user
+      hostname  = var.hostname
+      public_ip = yandex_compute_instance.jenkins.network_interface.0.nat_ip_address
+      domain    = var.domain
     }
   )
   filename = "inventory.yml"

@@ -1,8 +1,8 @@
-data "yandex_compute_image" family_images_windows {
+data "yandex_compute_image" "family_images_windows" {
   family = var.family_images_windows
 }
 
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
@@ -16,9 +16,9 @@ data "template_file" "userdata_win" {
 
 resource "yandex_compute_instance" "active_directory" {
 
-  name        = "active-directory"
-  platform_id = "standard-v3"
-  hostname    = var.pdc_hostname
+  name               = "active-directory"
+  platform_id        = "standard-v3"
+  hostname           = var.pdc_hostname
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   zone               = "ru-central1-b"
 
@@ -67,9 +67,9 @@ resource "yandex_compute_instance" "active_directory" {
 
 resource "yandex_compute_instance" "gitlab" {
 
-  name        = "gitlab"
-  platform_id = "standard-v3"
-  hostname    = var.gitlab_hostname
+  name               = "gitlab"
+  platform_id        = "standard-v3"
+  hostname           = var.gitlab_hostname
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   zone               = "ru-central1-b"
 
@@ -149,7 +149,7 @@ data "template_file" "inventory_yml" {
     letsencrypt_domain    = var.letsencrypt_domain
     pswd_gitlab_ldap_sync = var.pswd_gitlab_ldap_sync
     pswd_test_user_in_pdc = var.pswd_test_user_in_pdc
-    
+
   }
 }
 

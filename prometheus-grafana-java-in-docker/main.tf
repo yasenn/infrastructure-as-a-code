@@ -1,12 +1,12 @@
-data "yandex_compute_image" family_images_linux {
+data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
 resource "yandex_compute_instance" "javaindocker" {
 
-  name        = var.hostname_javaindocker
-  platform_id = "standard-v3"
-  hostname    = var.hostname_javaindocker
+  name               = var.hostname_javaindocker
+  platform_id        = "standard-v3"
+  hostname           = var.hostname_javaindocker
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
   resources {
@@ -48,9 +48,9 @@ resource "yandex_compute_instance" "javaindocker" {
 
 resource "yandex_compute_instance" "prometheus" {
 
-  name        = var.hostname_prometheus
-  platform_id = "standard-v3"
-  hostname    = var.hostname_prometheus
+  name               = var.hostname_prometheus
+  platform_id        = "standard-v3"
+  hostname           = var.hostname_prometheus
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
   resources {
