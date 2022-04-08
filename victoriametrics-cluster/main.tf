@@ -124,42 +124,55 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
+# resource "local_file" "host_ini" {
+#   filename = "host.ini"
+#   content  = <<-EOT
+# [victoria_storage]
+# %{for node in yandex_compute_instance.vmstorage~}
+# ${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
+# %{endfor~}
+# [victoria_insert]
+# %{for node in yandex_compute_instance.vminsert~}
+# ${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
+# %{endfor~}
+# [victoria_select]
+# %{for node in yandex_compute_instance.vmselect~}
+# ${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
+# %{endfor~}
+
+# [victoria_storage:vars]
+# vm_role=victoria-storage
+
+# [victoria_insert:vars]
+# vm_role=victoria-insert
+
+# [victoria_select:vars]
+# vm_role=victoria-select
+
+# [load-balancer]
+# load-balancer-01
+
+# [victoria_cluster:children]
+# victoria_select
+# victoria_insert
+# victoria_storage
+
+# [all:vars]
+# ansible_user=ubuntu
+# ansible_ssh_private_key_file=~/.ssh/id_rsa
+# vmstorage_group=victoria_cluster
+#   EOT
+# }
+
+
 resource "local_file" "host_ini" {
+  content = templatefile("host_ini.tmpl",
+    {
+      ssh_user            = var.ssh_user
+      vmstorage_public_ip = yandex_compute_instance.vmstorage.*.network_interface.0.nat_ip_address
+      vminsert_public_ip  = yandex_compute_instance.vminsert.*.network_interface.0.nat_ip_address
+      vmselect_private_ip = yandex_compute_instance.vmselect.*.network_interface.0.nat_ip_address
+    }
+  )
   filename = "host.ini"
-  content  = <<-EOT
-[victoria_storage]
-%{for node in yandex_compute_instance.vmstorage~}
-${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
-%{endfor~}
-[victoria_insert]
-%{for node in yandex_compute_instance.vminsert~}
-${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
-%{endfor~}
-[victoria_select]
-%{for node in yandex_compute_instance.vmselect~}
-${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
-%{endfor~}
-
-[victoria_storage:vars]
-vm_role=victoria-storage
-
-[victoria_insert:vars]
-vm_role=victoria-insert
-
-[victoria_select:vars]
-vm_role=victoria-select
-
-[load-balancer]
-load-balancer-01
-
-[victoria_cluster:children]
-victoria_select
-victoria_insert
-victoria_storage
-
-[all:vars]
-ansible_user=ubuntu
-ansible_ssh_private_key_file=~/.ssh/id_rsa
-vmstorage_group=victoria_cluster
-  EOT
 }

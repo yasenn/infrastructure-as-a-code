@@ -50,44 +50,6 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-# resource "local_file" "host_ini" {
-#   filename = "host.ini"
-#   content = <<-EOT
-# [all]
-# %{ for node in yandex_compute_instance.kubespray ~}
-# ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-# %{ endfor ~}
-
-# [kube_control_plane]
-# %{ for node in yandex_compute_instance.kubespray ~}
-# ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-# %{ endfor ~}
-
-# [etcd]
-# %{ for node in yandex_compute_instance.kubespray ~}
-# ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-# %{ endfor ~}
-
-# [kube_node]
-# %{ for node in yandex_compute_instance.kubespray ~}
-# ${ node.name } ansible_host=${ node.network_interface.0.nat_ip_address } ip=${ node.network_interface.0.ip_address }
-# %{ endfor ~}
-
-# [calico_rr]
-
-# [k8s_cluster:children]
-# kube_control_plane
-# kube_node
-# calico_rr
-
-# # Connection settings
-# [all:vars]
-# ansible_user=ubuntu
-# ansible_ssh_private_key_file=~/.ssh/id_rsa
-#   EOT
-# }
-
-
 resource "local_file" "host_ini" {
   content = templatefile("host_ini.tmpl",
     {
