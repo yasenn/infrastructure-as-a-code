@@ -2,7 +2,7 @@ all:
   children:
     consul_instances:
       hosts:
-%{~ for index, public_ip in content }
+%{~ for index, public_ip in consul_public_ip }
         consul${index}:
           ansible_host: ${public_ip}
 %{~ endfor }
