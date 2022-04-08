@@ -63,16 +63,13 @@ output "public_ip" {
 }
 
 resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml.rendered
+  content = templatefile("inventory_yml.tmpl",
+    {
+      ssh_user            = var.ssh_user
+      freeipa_public_ip   = yandex_compute_instance.etcd-cluster.*.network_interface.0.nat_ip_address
+      hostname            = var.hostname
+      domain              = var.domain
+    }
+  )
   filename = "inventory.yml"
-}
-
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  vars = {
-    ssh_user            = var.ssh_user
-    hostname            = var.hostname
-    public_ip           = yandex_compute_instance.freeipa.network_interface.0.nat_ip_address
-    domain              = var.domain
-  }
 }

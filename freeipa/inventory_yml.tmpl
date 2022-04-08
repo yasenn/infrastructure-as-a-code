@@ -3,9 +3,9 @@ all:
     ipaserver:
       hosts:
         "${hostname}":
-          ansible_host: "${public_ip}"
+          ansible_host: "${freeipa_public_ip}"
   vars:
-    #freeipa_external_url: "https://${hostname}.${public_ip}.${domain}"
+    #freeipa_external_url: "https://${hostname}.${freeipa_public_ip}.${domain}"
     ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
     ipaadmin_password: ADMPassword1
