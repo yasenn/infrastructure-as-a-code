@@ -13,3 +13,4 @@
 */clickhouse-zookeeper-cluster/ansible-clickhouse-deploy
 */postgresql-cluster/postgresql_cluster
 */freeipa/ansible-freeipa
+*/kubespray/kubespray
