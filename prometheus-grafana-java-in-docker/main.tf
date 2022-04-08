@@ -112,17 +112,14 @@ output "public_ip_javaindocker" {
 }
 
 resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml.rendered
+  content = templatefile("inventory_yml.tmpl",
+    {
+      hostname_prometheus    = var.hostname_prometheus
+      hostname_javaindocker  = var.hostname_javaindocker
+      public_ip_prometheus   = yandex_compute_instance.prometheus.network_interface.0.nat_ip_address
+      public_ip_javaindocker = yandex_compute_instance.javaindocker.network_interface.0.nat_ip_address
+      domain                 = var.domain
+    }
+  )
   filename = "inventory.yml"
-}
-
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  vars = {
-    hostname_prometheus    = var.hostname_prometheus
-    hostname_javaindocker  = var.hostname_javaindocker
-    public_ip_prometheus   = yandex_compute_instance.prometheus.network_interface.0.nat_ip_address
-    public_ip_javaindocker = yandex_compute_instance.javaindocker.network_interface.0.nat_ip_address
-    domain                 = var.domain
-  }
 }
