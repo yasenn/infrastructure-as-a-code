@@ -64,15 +64,13 @@ output "public_ip" {
 }
 
 resource "local_file" "inventory_yml" {
-  content  = data.template_file.inventory_yml.rendered
+  content = templatefile("inventory_yml.tmpl",
+    {
+      ssh_user        = var.ssh_user
+      gitlab_hostname = var.gitlab_hostname
+      public_ip       = yandex_compute_instance.gitlab.network_interface.0.nat_ip_address
+      domain          = var.domain
+    }
+  )
   filename = "inventory.yml"
-}
-
-data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
-  vars = {
-    gitlab_hostname = var.gitlab_hostname
-    public_ip       = yandex_compute_instance.gitlab.network_interface.0.nat_ip_address
-    domain          = var.domain
-  }
 }
