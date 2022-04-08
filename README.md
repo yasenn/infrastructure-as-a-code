@@ -23,3 +23,9 @@ cloud-id: xxx
 folder-id: xxxx
 compute-default-zone: ru-central1-b
 ```
+
+### terraform fmt for private.auto.tfvars.example
+find . -iname 'private.auto.tfvars.example' -execdir mv -i '{}' private.auto1.tfvars \;
+terraform fmt -recursive
+find . -iname 'private.auto1.tfvars' -execdir mv -i '{}' private.auto.tfvars.example \;
+
