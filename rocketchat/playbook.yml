@@ -1,4 +1,4 @@
   - hosts: rocketchat
     become: true
     roles:
-      - mrlesmithjr.rocketchat
+      - Rocket.Chat.Ansible
