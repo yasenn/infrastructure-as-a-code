@@ -2,7 +2,7 @@ all:
   children:
     elasticsearch_cluster:
       hosts:
-%{~ for index, public_ip in content }
+%{~ for index, public_ip in elasticsearch_public_ip }
         elasticsearch${index}:
           ansible_host: ${public_ip}
 %{~ endfor }
