@@ -3,7 +3,7 @@ data "yandex_compute_image" "family_images_linux" {
 }
 
 resource "yandex_compute_instance" "vmstorage" {
-  count              = 4
+  count              = 1
   name               = "vmstorage${count.index}"
   platform_id        = "standard-v3"
   hostname           = "vmstorage${count.index}"
@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "vmstorage" {
 }
 
 resource "yandex_compute_instance" "vminsert" {
-  count              = 2
+  count              = 1
   name               = "vminsert${count.index}"
   platform_id        = "standard-v3"
   hostname           = "vminsert${count.index}"
@@ -77,7 +77,7 @@ resource "yandex_compute_instance" "vminsert" {
 }
 
 resource "yandex_compute_instance" "vmselect" {
-  count              = 2
+  count              = 1
   name               = "vmselect${count.index}"
   platform_id        = "standard-v3"
   hostname           = "vmselect${count.index}"
@@ -123,47 +123,6 @@ resource "yandex_vpc_subnet" "subnet-1" {
   network_id     = yandex_vpc_network.network-1.id
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
-
-# resource "local_file" "host_ini" {
-#   filename = "host.ini"
-#   content  = <<-EOT
-# [victoria_storage]
-# %{for node in yandex_compute_instance.vmstorage~}
-# ${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
-# %{endfor~}
-# [victoria_insert]
-# %{for node in yandex_compute_instance.vminsert~}
-# ${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
-# %{endfor~}
-# [victoria_select]
-# %{for node in yandex_compute_instance.vmselect~}
-# ${node.name} ansible_host=${node.network_interface.0.nat_ip_address}
-# %{endfor~}
-
-# [victoria_storage:vars]
-# vm_role=victoria-storage
-
-# [victoria_insert:vars]
-# vm_role=victoria-insert
-
-# [victoria_select:vars]
-# vm_role=victoria-select
-
-# [load-balancer]
-# load-balancer-01
-
-# [victoria_cluster:children]
-# victoria_select
-# victoria_insert
-# victoria_storage
-
-# [all:vars]
-# ansible_user=ubuntu
-# ansible_ssh_private_key_file=~/.ssh/id_rsa
-# vmstorage_group=victoria_cluster
-#   EOT
-# }
-
 
 resource "local_file" "host_ini" {
   content = templatefile("host_ini.tmpl",
