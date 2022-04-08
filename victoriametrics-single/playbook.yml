@@ -1,5 +1,7 @@
-- hosts: victoriametrics
+---
+- hosts: vm-single
+  collections:
+    - victoriametrics.cluster
   become: true
   roles:
-    - role: buluma.victoriametrics
-
+    - victoriametrics.cluster.single
