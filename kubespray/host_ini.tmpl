@@ -1,3 +1,6 @@
+# ## Configure 'ip' variable to bind kubernetes services on a
+# ## different ip than the default iface
+# ## We should set etcd_member_name for etcd cluster. The node that is not a etcd member do not need to set the value, or can set the empty string value.
 [all]
 %{ for index, hostname in hostnames ~}
 ${hostname} ansible_host=${kubespray_public_ip["${index}"]} ip=${kubespray_private_ip["${index}"]}
@@ -5,17 +8,17 @@ ${hostname} ansible_host=${kubespray_public_ip["${index}"]} ip=${kubespray_priva
 
 [kube_control_plane]
 %{ for index, hostname in hostnames ~}
-${hostname}  ansible_host=${kubespray_public_ip["${index}"]} ip=${kubespray_private_ip["${index}"]}
+${hostname}
 %{ endfor ~}
 
 [etcd]
 %{ for index, hostname in hostnames ~}
-${hostname}  ansible_host=${kubespray_public_ip["${index}"]} ip=${kubespray_private_ip["${index}"]}
+${hostname}
 %{ endfor ~}
 
 [kube_node]
 %{ for index, hostname in hostnames ~}
-${hostname}  ansible_host=${kubespray_public_ip["${index}"]} ip=${kubespray_private_ip["${index}"]}
+${hostname}
 %{ endfor ~}
 
 [calico_rr]
