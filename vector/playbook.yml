@@ -1,4 +1,4 @@
   - hosts: vector
     become: true
     roles:
-      - mrlesmithjr.vector
+      - ansible-role-vector
