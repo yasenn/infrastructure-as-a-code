@@ -114,6 +114,7 @@ output "public_ip_javaindocker" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
+      ssh_user               = var.ssh_user
       hostname_prometheus    = var.hostname_prometheus
       hostname_javaindocker  = var.hostname_javaindocker
       public_ip_prometheus   = yandex_compute_instance.prometheus.network_interface.0.nat_ip_address
