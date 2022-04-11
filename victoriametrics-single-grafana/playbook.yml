@@ -4,11 +4,7 @@
     - victoriametrics.cluster
   become: true
   roles:
-    # - role: victoriametrics.cluster.vmagent
+    - role: cloudalchemy.node_exporter
+    - role: victoriametrics.cluster.vmagent
     - role: victoriametrics.cluster.single
-    # - role: buluma.grafana
-    #   vars:
-    #     grafana_use_provisioning: true
-    #     grafana_security:
-    #       admin_user: admin
-    #       admin_password: enter_your_secure_password
+    - role: buluma.grafana
