@@ -1,5 +1,5 @@
 ---
-- hosts: zookeepers
+- hosts: kafka_cluster
   become: true
   pre_tasks:
     - name: Update apt cache.
@@ -19,7 +19,7 @@
       retries: 10
       delay: 10
 
-- hosts: zookeepers
+- hosts: kafka_cluster
   become: true
   roles:
     - role: sleighzy.kafka

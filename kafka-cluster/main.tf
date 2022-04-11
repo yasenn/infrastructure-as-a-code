@@ -2,7 +2,7 @@ data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
-resource "yandex_compute_instance" "kafka-cluster" {
+resource "yandex_compute_instance" "kafka_cluster" {
   count              = 3
   name               = "kafka${count.index}"
   platform_id        = "standard-v3"
@@ -54,7 +54,7 @@ resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
       ssh_user               = var.ssh_user
-      kafka-cluster_public_ip = yandex_compute_instance.kafka-cluster.*.network_interface.0.nat_ip_address
+      kafka_public_ip = yandex_compute_instance.kafka_cluster.*.network_interface.0.nat_ip_address
     }
   )
   filename = "inventory.yml"
