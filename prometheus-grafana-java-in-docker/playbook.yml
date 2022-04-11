@@ -9,31 +9,16 @@
       apt: name=python3-pip state=present
   roles:
     - role: buluma.java
-    - role: geerlingguy.docker
-    # - role: cloudalchemy.node_exporter
-    - role: andrewrothstein.prometheus_jmx_exporter
   post_tasks:
-    - name: Install multi python packages with version specifiers
-      pip:
-        name:
-          - docker
-          - docker-compose
-    - name: Git checkout e2e Repository 
-      ansible.builtin.git:
-        repo: 'https://github.com/Drill4J/e2e.git'
-        dest: e2e
-    # use files parameter to use multiple docker-compose.yml files
-    - name: Run docker-compose.admin up
-      community.general.docker_compose:
-        project_src: e2e/docker
-        files:
-          - docker-compose.admin.yml
+    - name: install maven
+      apt: name=maven state=present
+
 
 - name: Install prometheus and Grafana
   become: true
   hosts: prometheus
   roles:
-    # - role: cloudalchemy.node_exporter
+    - role: cloudalchemy.node_exporter
     - role: buluma.prometheus
       vars:
         prometheus_targets:
@@ -43,6 +28,7 @@
         prometheus_components: [ "prometheus", "node_exporter" ]
     - role: buluma.grafana
       vars:
+        grafana_version: 7.5.15
         grafana_use_provisioning: true
         grafana_security:
           admin_user: admin
