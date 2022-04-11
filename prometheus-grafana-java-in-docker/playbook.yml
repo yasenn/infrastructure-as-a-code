@@ -9,6 +9,9 @@
       apt: name=python3-pip state=present
   roles:
     - role: buluma.java
+      vars:
+        java_type: jdk
+        java_version: 8
   post_tasks:
     - name: install maven
       apt: name=maven state=present
