@@ -1,8 +1,10 @@
 terraform {
+  required_version = ">= 0.13"
+
   required_providers {
     yandex = {
       source  = "yandex-cloud/yandex"
-      version = "0.70.0"
+      version = ">= 0.70.0"
     }
     # template = {
     #   source = "reg.comcloud.xyz/hashicorp/template"

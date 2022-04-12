@@ -7,6 +7,9 @@ date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy install --force git+https://github.com/ansible-community/ansible-vault.git,master
+ansible-galaxy install robertdebock.core_dependencies
+ansible-galaxy install robertdebock.hashicorp
+ansible-galaxy install robertdebock.vault
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
