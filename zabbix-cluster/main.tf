@@ -2,11 +2,55 @@ data "yandex_compute_image" "family_images_linux" {
   family = var.family_images_linux
 }
 
-resource "yandex_compute_instance" "zabbix" {
+resource "yandex_compute_instance" "zabbix-server" {
 
-  name               = "zabbix"
+  name               = "zabbix-server"
   platform_id        = "standard-v3"
-  hostname           = var.hostname
+  hostname           = "zabbix-server"
+  service_account_id = yandex_iam_service_account.sa-compute-admin.id
+
+  resources {
+    cores  = var.cores
+    memory = var.memory
+  }
+
+  boot_disk {
+    initialize_params {
+      size     = var.disk_size
+      type     = var.disk_type
+      image_id = data.yandex_compute_image.family_images_linux.id
+    }
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.subnet-1.id
+    nat       = true
+  }
+
+  metadata = {
+    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = var.ssh_user
+      host        = self.network_interface.0.nat_ip_address
+      private_key = file("~/.ssh/id_rsa")
+    }
+
+    inline = [
+      "echo check connection"
+    ]
+  }
+
+}
+
+resource "yandex_compute_instance" "zabbix-database" {
+
+  name               = "zabbix-database"
+  platform_id        = "standard-v3"
+  hostname           = "zabbix-database"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
   resources {
@@ -57,17 +101,25 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-output "public_ip" {
-  description = "Public IP address for active directory"
-  value       = yandex_compute_instance.zabbix.network_interface.0.nat_ip_address
+resource "local_file" "host_ini" {
+  content = templatefile("host_ini.tmpl",
+    {
+      ssh_user          = var.ssh_user
+      zabbix_server_public_ip = yandex_compute_instance.zabbix-server.network_interface.0.nat_ip_address
+      zabbix_database_public_ip = yandex_compute_instance.zabbix-database.network_interface.0.nat_ip_address
+      domain            = var.domain
+    }
+  )
+  filename = "host.ini"
 }
+
 
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
       ssh_user  = var.ssh_user
-      hostname  = var.hostname
-      public_ip = yandex_compute_instance.zabbix.network_interface.0.nat_ip_address
+      zabbix_server_public_ip = yandex_compute_instance.zabbix-server.network_interface.0.nat_ip_address
+      zabbix_database_public_ip = yandex_compute_instance.zabbix-database.network_interface.0.nat_ip_address
       domain    = var.domain
     }
   )

@@ -1,6 +1,6 @@
 ---
-- name: Install zabbix server and web
-  hosts: zabbix
+
+- hosts: zabbix_database
   become: true
   pre_tasks:
     - name: Update apt cache.
@@ -11,39 +11,25 @@
         path: /etc/hosts
         state: absent
         regexp: '^127.0.1.1'
-    - name: Reboot host and wait for it to restart
-      reboot:
-        msg: "Reboot initiated by Ansible"
-        connect_timeout: 5
-        reboot_timeout: 600
-        pre_reboot_delay: 0
-        post_reboot_delay: 30
-        test_command: whoami
-
   roles:
-    - role: robertdebock.bootstrap
-    - role: robertdebock.selinux
-    - role: robertdebock.container_docs
-    - role: robertdebock.buildtools
-    - role: robertdebock.epel
-    - role: robertdebock.python_pip
-    - role: robertdebock.openssl
-      openssl_items:
-        - name: apache-httpd
-          common_name: "{{ ansible_fqdn }}"
-    - role: robertdebock.mysql
-      mysql_databases:
-        - name: zabbix
-          encoding: utf8
-          collation: utf8_bin
-      mysql_users:
-        - name: zabbix
-          password: zabbix
-          priv: "zabbix.*:ALL"
-    - role: robertdebock.php
-    - role: robertdebock.httpd
-    - role: robertdebock.ca_certificates
-    - role: robertdebock.zabbix_repository
-    - role: robertdebock.core_dependencies
-    - role: robertdebock.zabbix_server
-    - role: robertdebock.zabbix_web
+    - role: geerlingguy.postgresql
+
+- name: Installing Zabbix
+  hosts: zabbix_server
+  become: true
+  collections:
+    - community.zabbix
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+    - name: Remove 127.0.1.1 from /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        state: absent
+        regexp: '^127.0.1.1'
+  roles:
+    - role: zabbix_server
+    - role: geerlingguy.apache
+    - role: wdijkerman.php
+    - role: zabbix_web
