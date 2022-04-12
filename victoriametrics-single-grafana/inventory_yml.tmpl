@@ -9,11 +9,12 @@ all:
     ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
     vmagent_scrape_config:
-      node:
-      - targets:
-        - localhost:9100
+      scrape_configs:
+        - job_name: node
+          static_configs:
+            - targets:
+              - localhost:9100
     prometheus_components: [ "prometheus", "node_exporter" ]
-    grafana_version: 7.5.15
     grafana_use_provisioning: true
     grafana_security:
       admin_user: admin
@@ -25,9 +26,12 @@ all:
         url: 'http://localhost:8428'
         basicAuth: false
     grafana_dashboards:
-    - dashboard_id: 10229
-      datasource: prometheus
-    - dashboard_id: 12683
-      datasource: prometheus
-    - dashboard_id: 1860
-      datasource: prometheus
+      - dashboard_id: 10229
+        revision_id: 22
+        datasource: prometheus
+      - dashboard_id: 12683
+        revision_id: 7
+        datasource: prometheus
+      - dashboard_id: 1860
+        revision_id: 26
+        datasource: prometheus
