@@ -9,6 +9,11 @@ resource "yandex_compute_instance" "sonarqube" {
   hostname           = var.hostname
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
 
+  labels = {
+    environment = "development"
+    scope = "testing"
+  }
+
   resources {
     cores  = var.cores
     memory = var.memory
@@ -58,7 +63,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 output "public_ip" {
-  description = "Public IP address for active directory"
+  description = "Public IP address for sonarqube"
   value       = yandex_compute_instance.sonarqube.network_interface.0.nat_ip_address
 }
 
