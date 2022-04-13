@@ -104,10 +104,10 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "host_ini" {
   content = templatefile("host_ini.tmpl",
     {
-      ssh_user          = var.ssh_user
-      zabbix_server_public_ip = yandex_compute_instance.zabbix-server.network_interface.0.nat_ip_address
+      ssh_user                  = var.ssh_user
+      zabbix_server_public_ip   = yandex_compute_instance.zabbix-server.network_interface.0.nat_ip_address
       zabbix_database_public_ip = yandex_compute_instance.zabbix-database.network_interface.0.nat_ip_address
-      domain            = var.domain
+      domain                    = var.domain
     }
   )
   filename = "host.ini"
@@ -117,10 +117,10 @@ resource "local_file" "host_ini" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
-      ssh_user  = var.ssh_user
-      zabbix_server_public_ip = yandex_compute_instance.zabbix-server.network_interface.0.nat_ip_address
+      ssh_user                  = var.ssh_user
+      zabbix_server_public_ip   = yandex_compute_instance.zabbix-server.network_interface.0.nat_ip_address
       zabbix_database_public_ip = yandex_compute_instance.zabbix-database.network_interface.0.nat_ip_address
-      domain    = var.domain
+      domain                    = var.domain
     }
   )
   filename = "inventory.yml"

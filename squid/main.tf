@@ -1,6 +1,6 @@
- locals {
-   subnet_id = yandex_vpc_subnet.subnet-1.id
- }
+locals {
+  subnet_id = yandex_vpc_subnet.subnet-1.id
+}
 
 module "squid" {
   source       = "github.com/patsevanton/terraform-yandex-compute.git?ref=master"
@@ -13,9 +13,9 @@ module "squid" {
   description  = "squid"
   labels = {
     environment = "development"
-    scope = "testing"
+    scope       = "testing"
   }
-  depends_on   = [yandex_vpc_subnet.subnet-1]
+  depends_on = [yandex_vpc_subnet.subnet-1]
 }
 
 resource "yandex_vpc_network" "network-1" {
@@ -32,8 +32,8 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tmpl",
     {
-      ssh_user        = var.ssh_user
-      public_ip  = module.squid.external_ip[0]
+      ssh_user  = var.ssh_user
+      public_ip = module.squid.external_ip[0]
       hostname  = "squid"
     }
   )

@@ -11,7 +11,7 @@ resource "yandex_compute_instance" "sonarqube" {
 
   labels = {
     environment = "development"
-    scope = "testing"
+    scope       = "testing"
   }
 
   resources {
