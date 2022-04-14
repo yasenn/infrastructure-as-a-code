@@ -19,31 +19,6 @@ variable "yc_zone" {
   default     = "ru-central1-b"
 }
 
-variable "family_images_windows" {
-  type        = string
-  description = "Family of images windows in Yandex Cloud. Example: windows-2022-dc-gvlk, windows-2019-dc-gvlk"
-}
-
-variable "cores" {
-  type        = string
-  description = "Cores CPU. Examples: 2, 4, 6, 8 and more"
-}
-
-variable "memory" {
-  type        = string
-  description = "Memory GB. Examples: 2, 4, 6, 8 and more"
-}
-
-variable "disk_size" {
-  type        = string
-  description = "Disk size GB. Min 50 for Windows."
-}
-
-variable "disk_type" {
-  type        = string
-  description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
-}
-
 variable "pdc_admin_password" {
   type        = string
   description = "Password for Windows"
