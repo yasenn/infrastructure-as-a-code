@@ -62,8 +62,7 @@ resource "yandex_compute_instance" "active_directory" {
     }
 
     inline = [
-      "echo check connection",
-      "powershell.exe Write-Host hello",
+      "echo check connection"
     ]
   }
 
