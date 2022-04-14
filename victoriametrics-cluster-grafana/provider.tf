@@ -8,10 +8,10 @@ terraform {
     #   source = "reg.comcloud.xyz/hashicorp/template"
     #   version = "2.2.0"
     # }
-    # local = {
-    #   source = "reg.comcloud.xyz/hashicorp/local"
-    #   version = "2.2.2"
-    # }
+    local = {
+      source  = "terraform-registry.storage.yandexcloud.net/hashicorp/local"
+      version = "2.2.2"
+    }
   }
 }
 
