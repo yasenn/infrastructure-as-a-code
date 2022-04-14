@@ -30,6 +30,10 @@ resource "yandex_compute_instance" "active_directory" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [boot_disk]
+  }
+
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-pdc-01.id
     nat       = true

@@ -22,6 +22,10 @@ resource "yandex_compute_instance" "seaweedfs" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [boot_disk]
+  }
+
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-1.id
     nat       = true
