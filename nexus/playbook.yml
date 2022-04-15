@@ -8,8 +8,8 @@
     nexus_admin_password: "{{ vault_nexus_admin_password }}"
     nexus_public_hostname: 'nexus.vm'
     httpd_setup_enable: true
-    httpd_ssl_certificate_file: "{{ vault_httpd_ssl_certificate_file }}"
-    httpd_ssl_certificate_key_file: "{{ vault_httpd_ssl_certificate_key_file }}"
+    # httpd_ssl_certificate_file: "{{ vault_httpd_ssl_certificate_file }}"
+    # httpd_ssl_certificate_key_file: "{{ vault_httpd_ssl_certificate_key_file }}"
     ldap_connections:
       - ldap_name: 'Company LDAP'
         ldap_protocol: 'ldaps'
@@ -95,8 +95,6 @@
 
 
   roles:
-    
-    
     - { role: geerlingguy.java} # vars: See role doc for your distribution/version 
     # Debian/Ubuntu only
     - { role: geerlingguy.apache, apache_create_vhosts: no, apache_mods_enabled: ["proxy.load", "proxy_http.load", "headers.load"], apache_remove_default_vhost: true, tags: ["geerlingguy.apache"] }
