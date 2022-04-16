@@ -21,7 +21,7 @@ locals {
 }
 
 module "pdc" {
-  source           = "github.com/patsevanton/terraform-yandex-compute.git?ref=master"
+  source           = "github.com/patsevanton/terraform-yandex-compute.git?ref=main"
   image_family     = "windows-2022-dc-gvlk"
   subnet_id        = local.subnet_id
   zone             = var.yc_zone
