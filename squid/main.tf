@@ -3,7 +3,8 @@ locals {
 }
 
 module "squid" {
-  source       = "github.com/patsevanton/terraform-yandex-compute.git?ref=main"
+  source  = "patsevanton/compute/yandex"
+  version = "1.0.0"
   image_family = "ubuntu-2004-lts"
   subnet_id    = local.subnet_id
   zone         = var.yc_zone
