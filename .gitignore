@@ -14,3 +14,4 @@
 */postgresql-cluster/postgresql_cluster
 */freeipa/ansible-freeipa
 */kubespray/kubespray
+/.idea/
