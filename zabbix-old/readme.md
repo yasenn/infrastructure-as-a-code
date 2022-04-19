@@ -1,1 +1,0 @@
-### Install zabbix-single by ansible and terraform to Yandex Cloud
