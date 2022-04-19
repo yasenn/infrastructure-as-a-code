@@ -5,7 +5,7 @@ terraform {
       version = "0.70.0"
     }
     template = {
-      source = "terraform-registry.storage.yandexcloud.net/hashicorp/template"
+      source  = "terraform-registry.storage.yandexcloud.net/hashicorp/template"
       version = "2.2.0"
     }
     local = {

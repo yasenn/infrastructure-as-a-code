@@ -3,15 +3,15 @@ locals {
 }
 
 module "squid" {
-  source  = "patsevanton/compute/yandex"
-  version = "1.0.1"
-  image_family = "ubuntu-2004-lts"
-  subnet_id    = local.subnet_id
-  zone         = var.yc_zone
-  name         = "squid"
-  hostname     = "squid"
-  is_nat       = true
-  description  = "squid"
+  source             = "patsevanton/compute/yandex"
+  version            = "1.0.1"
+  image_family       = "ubuntu-2004-lts"
+  subnet_id          = local.subnet_id
+  zone               = var.yc_zone
+  name               = "squid"
+  hostname           = "squid"
+  is_nat             = true
+  description        = "squid"
   serial-port-enable = 1
   labels = {
     environment = "development"

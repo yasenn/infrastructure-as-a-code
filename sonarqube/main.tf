@@ -1,13 +1,13 @@
 module "sonarqube" {
-  source  = "patsevanton/compute/yandex"
-  version = "1.1.0"
-  image_family = var.family_images_linux
-  subnet_id    = yandex_vpc_subnet.subnet-1.id
-  zone         = var.yc_zone
-  name         = "sonarqube"
-  hostname     = "sonarqube"
-  is_nat       = true
-  description  = "squid"
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
+  name               = "sonarqube"
+  hostname           = "sonarqube"
+  is_nat             = true
+  description        = "squid"
   serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   labels = {

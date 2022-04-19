@@ -37,7 +37,7 @@ resource "yandex_compute_instance" "active_directory" {
 
   lifecycle {
     ignore_changes = [boot_disk]
-  }  
+  }
 
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-1.id
@@ -91,7 +91,7 @@ resource "yandex_compute_instance" "gitlab" {
 
   lifecycle {
     ignore_changes = [boot_disk]
-  }  
+  }
 
   network_interface {
     subnet_id = yandex_vpc_subnet.subnet-1.id

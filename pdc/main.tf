@@ -21,25 +21,25 @@ locals {
 }
 
 module "pdc" {
-  source  = "patsevanton/compute/yandex"
-  version = "1.0.1"
-  image_family     = "windows-2022-dc-gvlk"
-  subnet_id        = local.subnet_id
-  zone             = var.yc_zone
-  name             = "pdc"
-  hostname         = "pdc"
-  is_nat           = true
-  description      = "pdc"
-  user-data        = data.template_file.userdata_win.rendered
-  type_remote_exec = "winrm"
-  user             = "Administrator"
-  password         = var.pdc_admin_password
-  https            = true
-  port             = 5986
-  insecure         = true
-  timeout          = "15m"
+  source             = "patsevanton/compute/yandex"
+  version            = "1.0.1"
+  image_family       = "windows-2022-dc-gvlk"
+  subnet_id          = local.subnet_id
+  zone               = var.yc_zone
+  name               = "pdc"
+  hostname           = "pdc"
+  is_nat             = true
+  description        = "pdc"
+  user-data          = data.template_file.userdata_win.rendered
+  type_remote_exec   = "winrm"
+  user               = "Administrator"
+  password           = var.pdc_admin_password
+  https              = true
+  port               = 5986
+  insecure           = true
+  timeout            = "15m"
   serial-port-enable = 1
-  size             = 50
+  size               = 50
   labels = {
     environment = "development"
     scope       = "testing"
