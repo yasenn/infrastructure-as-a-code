@@ -1,131 +1,67 @@
-data "yandex_compute_image" "family_images_linux" {
-  family = var.family_images_linux
+module "vmstorage" {
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
+  name               = "vmstorage"
+  hostname           = "vmstorage"
+  is_nat             = true
+  description        = "vmstorage"
+  serial-port-enable = 1
+  service_account_id = yandex_iam_service_account.sa-compute-admin.id
+  labels = {
+    environment = "development"
+    scope       = "testing"
+  }
+  depends_on = [
+    yandex_vpc_subnet.subnet-1,
+    yandex_iam_service_account.sa-compute-admin
+  ]
 }
 
-resource "yandex_compute_instance" "vmstorage" {
-  count              = 1
-  name               = "vmstorage${count.index}"
-  platform_id        = "standard-v3"
-  hostname           = "vmstorage${count.index}"
+module "vminsert" {
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
+  name               = "vminsert"
+  hostname           = "vminsert"
+  is_nat             = true
+  description        = "vminsert"
+  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  resources {
-    cores  = var.cores
-    memory = var.memory
+  labels = {
+    environment = "development"
+    scope       = "testing"
   }
-  boot_disk {
-    initialize_params {
-      size     = var.disk_size
-      type     = var.disk_type
-      image_id = data.yandex_compute_image.family_images_linux.id
-    }
-  }
-
-  lifecycle {
-    ignore_changes = [boot_disk]
-  }
-
-  network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-1.id
-    nat       = true
-  }
-  metadata = {
-    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
-  }
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = var.ssh_user
-      host        = self.network_interface.0.nat_ip_address
-      private_key = file("~/.ssh/id_rsa")
-    }
-    inline = [
-      "echo check connection"
-    ]
-  }
+  depends_on = [
+    yandex_vpc_subnet.subnet-1,
+    yandex_iam_service_account.sa-compute-admin
+  ]
 }
 
-resource "yandex_compute_instance" "vminsert" {
-  count              = 1
-  name               = "vminsert${count.index}"
-  platform_id        = "standard-v3"
-  hostname           = "vminsert${count.index}"
+module "vmselect" {
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
+  name               = "vmselect"
+  hostname           = "vmselect"
+  is_nat             = true
+  description        = "vmselect"
+  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  resources {
-    cores  = var.cores
-    memory = var.memory
+  labels = {
+    environment = "development"
+    scope       = "testing"
   }
-  boot_disk {
-    initialize_params {
-      size     = var.disk_size
-      type     = var.disk_type
-      image_id = data.yandex_compute_image.family_images_linux.id
-    }
-  }
-
-  lifecycle {
-    ignore_changes = [boot_disk]
-  }
-
-  network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-1.id
-    nat       = true
-  }
-  metadata = {
-    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
-  }
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = var.ssh_user
-      host        = self.network_interface.0.nat_ip_address
-      private_key = file("~/.ssh/id_rsa")
-    }
-    inline = [
-      "echo check connection"
-    ]
-  }
-}
-
-resource "yandex_compute_instance" "vmselect" {
-  count              = 1
-  name               = "vmselect${count.index}"
-  platform_id        = "standard-v3"
-  hostname           = "vmselect${count.index}"
-  service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  resources {
-    cores  = var.cores
-    memory = var.memory
-  }
-  boot_disk {
-    initialize_params {
-      size     = var.disk_size
-      type     = var.disk_type
-      image_id = data.yandex_compute_image.family_images_linux.id
-    }
-  }
-
-  lifecycle {
-    ignore_changes = [boot_disk]
-  }
-
-  network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-1.id
-    nat       = true
-  }
-  metadata = {
-    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
-  }
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = var.ssh_user
-      host        = self.network_interface.0.nat_ip_address
-      private_key = file("~/.ssh/id_rsa")
-    }
-    inline = [
-      "echo check connection"
-    ]
-  }
+  depends_on = [
+    yandex_vpc_subnet.subnet-1,
+    yandex_iam_service_account.sa-compute-admin
+  ]
 }
 
 resource "yandex_vpc_network" "network-1" {
@@ -143,9 +79,9 @@ resource "local_file" "host_ini" {
   content = templatefile("host_ini.tmpl",
     {
       ssh_user            = var.ssh_user
-      vmstorage_public_ip = yandex_compute_instance.vmstorage.*.network_interface.0.nat_ip_address
-      vminsert_public_ip  = yandex_compute_instance.vminsert.*.network_interface.0.nat_ip_address
-      vmselect_private_ip = yandex_compute_instance.vmselect.*.network_interface.0.nat_ip_address
+      vmstorage_public_ip = module.vmstorage.external_ip
+      vminsert_public_ip  = module.vminsert.external_ip
+      vmselect_private_ip = module.vmselect.external_ip
     }
   )
   filename = "host.ini"
