@@ -56,7 +56,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "host_ini" {
-  content = templatefile("host_ini.tmpl",
+  content = templatefile("host_ini.tpl",
     {
       ssh_user             = var.ssh_user
       hostnames            = yandex_compute_instance.kubespray.*.name,
