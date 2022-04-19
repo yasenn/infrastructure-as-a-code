@@ -120,7 +120,7 @@ output "public_ip_javaindocker" {
 }
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl",
+  content = templatefile("inventory_yml.tpl",
     {
       ssh_user               = var.ssh_user
       hostname_prometheus    = var.hostname_prometheus

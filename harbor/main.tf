@@ -67,7 +67,7 @@ output "public_ip" {
 }
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl",
+  content = templatefile("inventory_yml.tpl",
     {
       ssh_user  = var.ssh_user
       hostname  = var.hostname

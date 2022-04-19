@@ -143,7 +143,7 @@ resource "local_file" "inventory_yml" {
 }
 
 data "template_file" "inventory_yml" {
-  template = file("inventory_yml.tmpl")
+  template = file("inventory_yml.tpl")
   vars = {
     windows_password          = var.windows_password
     pdc_hostname              = var.pdc_hostname

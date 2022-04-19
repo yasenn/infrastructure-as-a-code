@@ -32,7 +32,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl",
+  content = templatefile("inventory_yml.tpl",
     {
       ssh_user  = var.ssh_user
       public_ip = module.squid.external_ip[0]

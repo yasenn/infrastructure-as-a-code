@@ -48,7 +48,7 @@ module "pdc" {
 }
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl",
+  content = templatefile("inventory_yml.tpl",
     {
       pdc_admin_password = var.pdc_admin_password
       pdc_hostname       = var.pdc_hostname

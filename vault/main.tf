@@ -56,7 +56,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl",
+  content = templatefile("inventory_yml.tpl",
     {
       ssh_user        = var.ssh_user
       vault_public_ip = yandex_compute_instance.vault.*.network_interface.0.nat_ip_address
