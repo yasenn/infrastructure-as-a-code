@@ -73,4 +73,3 @@ variable "pswd_test_user_in_pdc" {
   type        = string
   description = "pswd_test_user_in_pdc"
 }
-

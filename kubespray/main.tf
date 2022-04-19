@@ -66,4 +66,3 @@ resource "local_file" "host_ini" {
   )
   filename = "host.ini"
 }
-

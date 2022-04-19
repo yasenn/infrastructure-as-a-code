@@ -161,5 +161,3 @@ data "template_file" "inventory_yml" {
 
   }
 }
-
-

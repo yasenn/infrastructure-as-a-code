@@ -42,4 +42,3 @@ resource "local_file" "inventory_yml" {
   )
   filename = "inventory.yml"
 }
-
