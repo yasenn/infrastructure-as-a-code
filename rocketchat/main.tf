@@ -1,53 +1,23 @@
-data "yandex_compute_image" "family_images_linux" {
-  family = var.family_images_linux
-}
-
-resource "yandex_compute_instance" "rocketchat" {
-
+module "rocketchat" {
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
   name               = "rocketchat"
-  platform_id        = "standard-v3"
-  hostname           = var.hostname
+  hostname           = "rocketchat"
+  is_nat             = true
+  description        = "rocketchat"
+  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-
-  resources {
-    cores  = var.cores
-    memory = var.memory
+  labels = {
+    environment = "development"
+    scope       = "testing"
   }
-
-  boot_disk {
-    initialize_params {
-      size     = var.disk_size
-      type     = var.disk_type
-      image_id = data.yandex_compute_image.family_images_linux.id
-    }
-  }
-
-  lifecycle {
-    ignore_changes = [boot_disk]
-  }
-
-  network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-1.id
-    nat       = true
-  }
-
-  metadata = {
-    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
-  }
-
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = var.ssh_user
-      host        = self.network_interface.0.nat_ip_address
-      private_key = file("~/.ssh/id_rsa")
-    }
-
-    inline = [
-      "echo check connection"
-    ]
-  }
-
+  depends_on = [
+    yandex_vpc_subnet.subnet-1,
+    yandex_iam_service_account.sa-compute-admin
+  ]
 }
 
 resource "yandex_vpc_network" "network-1" {
@@ -61,17 +31,12 @@ resource "yandex_vpc_subnet" "subnet-1" {
   v4_cidr_blocks = ["192.168.10.0/24"]
 }
 
-output "public_ip" {
-  description = "Public IP address for active directory"
-  value       = yandex_compute_instance.rocketchat.network_interface.0.nat_ip_address
-}
-
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tpl",
     {
       ssh_user  = var.ssh_user
       hostname  = var.hostname
-      public_ip = yandex_compute_instance.rocketchat.network_interface.0.nat_ip_address
+      public_ip = module.rocketchat.external_ip[0]
       domain    = var.domain
     }
   )
