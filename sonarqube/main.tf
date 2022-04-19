@@ -1,12 +1,8 @@
-locals {
-  subnet_id = yandex_vpc_subnet.subnet-1.id
-}
-
 module "sonarqube" {
   source  = "patsevanton/compute/yandex"
   version = "1.1.0"
   image_family = var.family_images_linux
-  subnet_id    = local.subnet_id
+  subnet_id    = yandex_vpc_subnet.subnet-1.id
   zone         = var.yc_zone
   name         = "sonarqube"
   hostname     = "sonarqube"
