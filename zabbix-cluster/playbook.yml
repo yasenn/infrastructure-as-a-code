@@ -31,5 +31,6 @@
   roles:
     - role: zabbix_server
     - role: geerlingguy.apache
-    - role: wdijkerman.php
+    - role: geerlingguy.php
+    - role: geerlingguy.apache-php-fpm
     - role: zabbix_web
