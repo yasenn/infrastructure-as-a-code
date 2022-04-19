@@ -3,7 +3,8 @@ locals {
 }
 
 module "sonarqube" {
-  source           = "github.com/patsevanton/terraform-yandex-compute.git?ref=service_account_id"
+  source  = "patsevanton/compute/yandex"
+  version = "1.1.0"
   image_family = var.family_images_linux
   subnet_id    = local.subnet_id
   zone         = var.yc_zone
