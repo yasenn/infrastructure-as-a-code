@@ -32,7 +32,7 @@ resource "yandex_vpc_subnet" "subnet-1" {
 }
 
 resource "local_file" "host_ini" {
-  content = templatefile("host_ini.tmpl",
+  content = templatefile("host_ini.tpl",
     {
       ssh_user                  = var.ssh_user
       zabbix_server_public_ip   = module.zabbix-server.external_ip[0]
@@ -45,7 +45,7 @@ resource "local_file" "host_ini" {
 
 
 resource "local_file" "inventory_yml" {
-  content = templatefile("inventory_yml.tmpl",
+  content = templatefile("inventory_yml.tpl",
     {
       ssh_user  = var.ssh_user
       hostname  = var.hostname

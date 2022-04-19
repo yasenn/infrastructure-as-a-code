@@ -8,6 +8,7 @@ all:
             zabbix_server_dbhost: ${zabbix_database_public_ip}
             zabbix_server_real_dbhost: ${zabbix_database_public_ip}
             zabbix_server_dbpassword: supersecure
+            zabbix_api_server_url: "http://zabbix.${zabbix_server_public_ip}.${domain}"
         zabbix_database:
           ansible_host: ${zabbix_database_public_ip}
           vars:
