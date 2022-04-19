@@ -47,11 +47,11 @@ resource "local_file" "host_ini" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tpl",
     {
-      ssh_user  = var.ssh_user
-      hostname  = var.hostname
+      ssh_user                  = var.ssh_user
+      hostname                  = var.hostname
       zabbix_server_public_ip   = module.zabbix-server.external_ip[0]
       zabbix_database_public_ip = module.zabbix-server.external_ip[0]
-      domain    = var.domain
+      domain                    = var.domain
     }
   )
   filename = "inventory.yml"
