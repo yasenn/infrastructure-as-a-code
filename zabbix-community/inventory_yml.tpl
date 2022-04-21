@@ -12,6 +12,7 @@ all:
           zabbix_api_server_url: "http://zabbix.${zabbix_server_public_ip}.${domain}"
         zabbix_database:
           ansible_host: ${zabbix_database_public_ip}
+          postgresql_listen_addresses: "*"
           postgresql_users:
             - name: zabbix-server
               password: supersecure
