@@ -8,7 +8,7 @@ TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy collection install -r requirements.yml
 ansible-galaxy collection install community.postgresql
-ansible-galaxy install geerlingguy.postgresql
+ansible-galaxy install anxs.postgresql
 ansible-galaxy install geerlingguy.php
 ansible-galaxy install geerlingguy.apache-php-fpm
 ansible-playbook -i inventory.yml playbook.yml

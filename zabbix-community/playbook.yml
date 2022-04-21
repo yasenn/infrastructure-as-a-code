@@ -12,7 +12,9 @@
         state: absent
         regexp: '^127.0.1.1'
   roles:
-    - role: geerlingguy.postgresql
+    - role: anxs.postgresql
+      vars:
+        ansible_python_interpreter: "/usr/bin/python3" 
 
 - name: Installing Zabbix
   hosts: zabbix_server
