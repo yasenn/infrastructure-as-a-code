@@ -1,47 +1,24 @@
-data "yandex_compute_image" "family_images_linux" {
-  family = var.family_images_linux
-}
-
-resource "yandex_compute_instance" "consul" {
+module "consul" {
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
   count              = 3
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
   name               = "consul${count.index}"
-  platform_id        = "standard-v3"
   hostname           = "consul${count.index}"
+  memory             = var.memory
+  is_nat             = true
+  description        = "consul${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  resources {
-    cores  = var.cores
-    memory = var.memory
+  labels = {
+    environment = "development"
+    scope       = "testing"
   }
-  boot_disk {
-    initialize_params {
-      size     = var.disk_size
-      type     = var.disk_type
-      image_id = data.yandex_compute_image.family_images_linux.id
-    }
-  }
-
-  lifecycle {
-    ignore_changes = [boot_disk]
-  }
-
-  network_interface {
-    subnet_id = yandex_vpc_subnet.subnet-1.id
-    nat       = true
-  }
-  metadata = {
-    ssh-keys = "var.ssh_user:${file("~/.ssh/id_rsa.pub")}"
-  }
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = var.ssh_user
-      host        = self.network_interface.0.nat_ip_address
-      private_key = file("~/.ssh/id_rsa")
-    }
-    inline = [
-      "echo check connection"
-    ]
-  }
+  depends_on = [
+    yandex_vpc_subnet.subnet-1,
+    yandex_iam_service_account.sa-compute-admin
+  ]
 }
 
 resource "yandex_vpc_network" "network-1" {
@@ -58,8 +35,8 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tpl",
     {
-      ssh_user         = var.ssh_user
-      consul_public_ip = yandex_compute_instance.consul.*.network_interface.0.nat_ip_address
+      ssh_user             = var.ssh_user
+      consul_public_ip = flatten(module.consul[*].external_ip[0])
     }
   )
   filename = "inventory.yml"
