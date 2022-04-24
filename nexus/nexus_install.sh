@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e
+set -euxo pipefail
+
 
 start_time=`date +%s`
 date1=$(date +"%s")
