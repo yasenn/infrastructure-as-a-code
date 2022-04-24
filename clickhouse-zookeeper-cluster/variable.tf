@@ -29,32 +29,32 @@ variable "ssh_user" {
   description = "ssh_user"
 }
 
-variable "cores" {
-  type        = string
-  description = "Cores CPU. Examples: 2, 4, 6, 8 and more"
-}
+#variable "cores" {
+#  type        = string
+#  description = "Cores CPU. Examples: 2, 4, 6, 8 and more"
+#}
 
 variable "memory" {
   type        = string
   description = "Memory GB. Examples: 2, 4, 6, 8 and more"
 }
 
-variable "disk_size" {
-  type        = string
-  description = "Disk size GB. Min 50 for Windows."
-}
-
-variable "disk_type" {
-  type        = string
-  description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
-}
+#variable "disk_size" {
+#  type        = string
+#  description = "Disk size GB. Min 50 for Windows."
+#}
+#
+#variable "disk_type" {
+#  type        = string
+#  description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
+#}
 
 variable "hostname" {
   type        = string
   description = "hostname"
 }
 
-variable "domain" {
-  type        = string
-  description = "domain"
-}
+#variable "domain" {
+#  type        = string
+#  description = "domain"
+#}

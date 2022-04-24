@@ -18,6 +18,8 @@
       shell: echo stat | nc 127.0.0.1 2181 | grep Mode | grep -E -w  "leader|follower"
       retries: 10
       delay: 10
+      register: result
+      until: result.rc == 0
 
 
 - hosts: clickhouse_cluster
