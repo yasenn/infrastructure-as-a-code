@@ -3,13 +3,13 @@ all:
     etcd:
       hosts:
 %{~ for index, public_ip in etcd-cluster_public_ip }
-        elasticsearch${index}:
+        etcd{index}:
           ansible_host: ${public_ip}
 %{~ endfor }
     etcd_master:
       hosts:
 %{~ for index, public_ip in etcd-cluster_public_ip }
-        elasticsearch${index}:
+        etcd{index}:
           ansible_host: ${public_ip}
 %{~ endfor }
   vars:
