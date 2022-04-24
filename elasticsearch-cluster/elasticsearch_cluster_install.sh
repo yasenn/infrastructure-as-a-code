@@ -4,7 +4,9 @@ set -eu pipefail
 
 start_time=`date +%s`
 date1=$(date +"%s")
-TF_IN_AUTOMATION=1 terraform init
+TF_IN_AUTOMATION=1 terraform init -upgrade
+unset HTTP_PROXY
+unset HTTPS_PROXY
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy install buluma.java
 ansible-galaxy install elastic.elasticsearch,v7.17.0
