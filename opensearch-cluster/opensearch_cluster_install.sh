@@ -4,7 +4,9 @@ set -e
 
 start_time=`date +%s`
 date1=$(date +"%s")
-TF_IN_AUTOMATION=1 terraform init
+TF_IN_AUTOMATION=1 terraform init -upgrade
+unset HTTP_PROXY
+unset HTTPS_PROXY
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 rm -rf opensearch-project || true
 git clone https://github.com/opensearch-project/ansible-playbook.git opensearch-project
