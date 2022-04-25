@@ -6,6 +6,7 @@ start_time=`date +%s`
 date1=$(date +"%s")
 TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
+ansible-galaxy install geerlingguy.docker
 ansible-galaxy install one_mind.harbor_ansible_role
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
