@@ -6,6 +6,7 @@ module "freeipa" {
   zone               = var.yc_zone
   name               = "freeipa"
   hostname           = "freeipa"
+  memory             = "4"
   is_nat             = true
   user               = var.ssh_user
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
