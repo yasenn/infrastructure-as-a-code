@@ -29,7 +29,6 @@ module "pdc" {
   name               = "pdc"
   hostname           = "pdc"
   is_nat             = true
-  description        = "pdc"
   user-data          = data.template_file.userdata_win.rendered
   type_remote_exec   = "winrm"
   user               = "Administrator"
@@ -38,12 +37,7 @@ module "pdc" {
   port               = 5986
   insecure           = true
   timeout            = "15m"
-  serial-port-enable = 1
   size               = 50
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [yandex_vpc_subnet.subnet-pdc-01]
 }
 

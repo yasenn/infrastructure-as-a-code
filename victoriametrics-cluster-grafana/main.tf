@@ -7,13 +7,7 @@ module "vmstorage" {
   name               = "vmstorage"
   hostname           = "vmstorage"
   is_nat             = true
-  description        = "vmstorage"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin
@@ -29,13 +23,7 @@ module "vminsert" {
   name               = "vminsert"
   hostname           = "vminsert"
   is_nat             = true
-  description        = "vminsert"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin
@@ -51,13 +39,7 @@ module "vmselect" {
   name               = "vmselect"
   hostname           = "vmselect"
   is_nat             = true
-  description        = "vmselect"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin

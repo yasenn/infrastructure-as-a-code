@@ -7,13 +7,7 @@ module "zabbix-server" {
   name               = "zabbix-server"
   hostname           = "zabbix-server"
   is_nat             = true
-  description        = "zabbix-server"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin

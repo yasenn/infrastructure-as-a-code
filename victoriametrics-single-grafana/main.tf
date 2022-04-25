@@ -7,13 +7,7 @@ module "victoriametrics" {
   name               = "victoriametrics"
   hostname           = "victoriametrics"
   is_nat             = true
-  description        = "victoriametrics"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin
@@ -29,13 +23,7 @@ module "grafana" {
   name               = "grafana"
   hostname           = "grafana"
   is_nat             = true
-  description        = "grafana"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin

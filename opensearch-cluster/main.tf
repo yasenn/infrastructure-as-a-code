@@ -8,12 +8,7 @@ module "master" {
   hostname           = "master"
   # memory             = "8"
   is_nat             = true
-  description        = "master"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin
@@ -31,12 +26,7 @@ module "data" {
   hostname           = "data${count.index}"
   # memory             = "8"
   is_nat             = true
-  description        = "data"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin
@@ -53,12 +43,7 @@ module "dashboard" {
   hostname           = "dashboard"
   # memory             = "4"
   is_nat             = true
-  description        = "dashboard"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin

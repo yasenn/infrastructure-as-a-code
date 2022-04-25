@@ -9,12 +9,7 @@ module "consul" {
   hostname           = "consul${count.index}"
   memory             = var.memory
   is_nat             = true
-  description        = "consul${count.index}"
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin

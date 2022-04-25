@@ -7,13 +7,7 @@ module "vector" {
   name               = "vector"
   hostname           = "vector"
   is_nat             = true
-  description        = "vector"
-  serial-port-enable = 1
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [
     yandex_vpc_subnet.subnet-1,
     yandex_iam_service_account.sa-compute-admin

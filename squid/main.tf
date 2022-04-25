@@ -11,12 +11,6 @@ module "squid" {
   name               = "squid"
   hostname           = "squid"
   is_nat             = true
-  description        = "squid"
-  serial-port-enable = 1
-  labels = {
-    environment = "development"
-    scope       = "testing"
-  }
   depends_on = [yandex_vpc_subnet.subnet-1]
 }
 

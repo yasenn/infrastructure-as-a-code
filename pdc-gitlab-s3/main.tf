@@ -45,7 +45,6 @@ resource "yandex_compute_instance" "active_directory" {
 
   metadata = {
     user-data          = data.template_file.userdata_win.rendered
-    serial-port-enable = 1
   }
 
   provisioner "remote-exec" {
