@@ -1,7 +1,8 @@
 - hosts: gitlab
   become: true
   roles:
-    - role: buluma.gitlab
+    - role: robertdebock.gitlab
+      gitlab_cleanup_ruby: True
   post_tasks:
     - name: Read initial_root_password file
       slurp:

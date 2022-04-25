@@ -4,9 +4,12 @@ set -eu pipefail
 
 start_time=`date +%s`
 date1=$(date +"%s")
-TF_IN_AUTOMATION=1 terraform init
+TF_IN_AUTOMATION=1 terraform init -upgrade
+unset HTTP_PROXY
+unset HTTPS_PROXY
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
-ansible-galaxy install buluma.gitlab
+pip3 install -U --user Jinja2
+ansible-galaxy install robertdebock.gitlab
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
