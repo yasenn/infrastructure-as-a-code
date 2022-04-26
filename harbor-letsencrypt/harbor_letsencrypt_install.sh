@@ -11,7 +11,7 @@ TF_IN_AUTOMATION=1 terraform apply -auto-approve
 pip3 install -U --user Jinja2
 ansible-galaxy install systemli.letsencrypt
 ansible-galaxy install geerlingguy.docker
-ansible-galaxy install one_mind.harbor_ansible_role
+ansible-galaxy install --force git+https://github.com/bodsch/ansible-role-harbor.git,main
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")
