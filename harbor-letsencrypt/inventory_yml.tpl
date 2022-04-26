@@ -1,8 +1,8 @@
 all:
   children:
-    letsencrypt:
+    harbor:
       hosts:
-        "${letsencrypt_hostname}":
+        "${hostname}":
           ansible_host: "${public_ip}"
   vars:
     ansible_user:  ${ssh_user}

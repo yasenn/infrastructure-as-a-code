@@ -21,7 +21,7 @@ variable "yc_zone" {
 
 variable "family_images_linux" {
   type        = string
-  description = "Family of images letsencrypt in Yandex Cloud. Example: ubuntu-2004-lts"
+  description = "Family of images ubuntu in Yandex Cloud. Example: ubuntu-2004-lts"
 }
 
 variable "ssh_user" {
@@ -49,9 +49,9 @@ variable "disk_type" {
   description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
 }
 
-variable "letsencrypt_hostname" {
+variable "hostname" {
   type        = string
-  description = "letsencrypt_hostname"
+  description = "hostname"
 }
 
 variable "domain" {

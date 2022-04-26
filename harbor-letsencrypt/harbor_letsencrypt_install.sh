@@ -10,6 +10,8 @@ unset HTTPS_PROXY
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 pip3 install -U --user Jinja2
 ansible-galaxy install systemli.letsencrypt
+ansible-galaxy install geerlingguy.docker
+ansible-galaxy install one_mind.harbor_ansible_role
 ansible-playbook -i inventory.yml playbook.yml
 end_time=`date +%s`
 date2=$(date +"%s")

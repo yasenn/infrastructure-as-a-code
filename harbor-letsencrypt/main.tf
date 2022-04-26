@@ -1,12 +1,11 @@
-module "letsencrypt" {
+module "harbor" {
   source             = "patsevanton/compute/yandex"
   version            = "1.1.0"
   image_family       = var.family_images_linux
   subnet_id          = yandex_vpc_subnet.subnet-1.id
   zone               = var.yc_zone
-  name               = "letsencrypt"
-  hostname           = "letsencrypt"
-  memory             = "4"
+  name               = "harbor"
+  hostname           = "harbor"
   is_nat             = true
   user               = var.ssh_user
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
@@ -31,8 +30,8 @@ resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tpl",
     {
       ssh_user  = var.ssh_user
-      letsencrypt_hostname = var.letsencrypt_hostname
-      public_ip = module.letsencrypt.external_ip[0]
+      hostname  = var.hostname
+      public_ip = module.harbor.external_ip[0]
       domain    = var.domain
     }
   )
