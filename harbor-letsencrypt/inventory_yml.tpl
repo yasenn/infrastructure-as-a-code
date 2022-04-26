@@ -17,6 +17,9 @@ all:
       reuse_key: True
     harbor_ui_url_protocol: https
     harbor_admin_password: superpassword
-    harbor_hostname: ${hostname}.${public_ip}.${domain}"
+    harbor_hostname: ${hostname}.${public_ip}.${domain}
     harbor_ssl_cert: /etc/letsencrypt/live/${hostname}.${public_ip}.${domain}/cert.pem
     harbor_ssl_cert_key: /etc/letsencrypt/live/${hostname}.${public_ip}.${domain}/privkey.pem
+    harbor_extras:
+    - clair
+    - notary
