@@ -20,6 +20,5 @@ all:
     harbor_hostname: ${hostname}.${public_ip}.${domain}
     harbor_ssl_cert: /etc/letsencrypt/live/${hostname}.${public_ip}.${domain}/cert.pem
     harbor_ssl_cert_key: /etc/letsencrypt/live/${hostname}.${public_ip}.${domain}/privkey.pem
-    harbor_extras:
-    - clair
-    - notary
+    harbor_installer_with:
+      - --with-trivy
