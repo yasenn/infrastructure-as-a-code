@@ -1,0 +1,4 @@
+  - hosts: wireguard
+    become: true
+    roles:
+      - githubixx.ansible_role_wireguard
