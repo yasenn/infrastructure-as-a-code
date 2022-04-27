@@ -41,12 +41,15 @@ all:
         url: 'http://localhost:9090'
         basicAuth: false
     grafana_dashboards:
-    - dashboard_id: 1860
-      revision_id: 26
-      datasource: prometheus
-    - dashboard_id: 14282
-      revision_id: 1
-      datasource: prometheus
-    - dashboard_id: 3457
-      revision_id: 1
-      datasource: prometheus
+      # Node Exporter Full:
+      - dashboard_id: 1860
+        revision_id: 26
+        datasource: prometheus
+      # Cadvisor exporter:
+      - dashboard_id: 14282
+        revision_id: 1
+        datasource: prometheus
+      # JMX Dashboard(Basic):
+      - dashboard_id: 14845
+        revision_id: 1
+        datasource: prometheus

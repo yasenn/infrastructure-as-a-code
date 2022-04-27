@@ -24,6 +24,22 @@
   post_tasks:
     - name: install maven
       apt: name=maven state=present
+    - name: Copy docker-compose-demo.yml
+      copy:
+        src: docker-compose-demo.yml
+        dest: /home/ubuntu/docker-compose-demo.yml
+    - name: Copy jmx_prometheus_javaagent_config.yaml
+      copy:
+        src: jmx_prometheus_javaagent_config.yaml
+        dest: /usr/local/jmx_prometheus_javaagent_config.yaml
+    - name: add user to docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: yes
+    - name: reset ssh connection to allow user changes to affect ansible user
+      ansible.builtin.meta:
+        reset_connection
 
 - name: Install prometheus and Grafana
   become: true
