@@ -29,35 +29,35 @@ variable "ssh_user" {
   description = "ssh_user"
 }
 
-variable "cores" {
-  type        = string
-  description = "Cores CPU. Examples: 2, 4, 6, 8 and more"
-}
+#variable "cores" {
+#  type        = string
+#  description = "Cores CPU. Examples: 2, 4, 6, 8 and more"
+#}
 
 variable "memory" {
   type        = string
   description = "Memory GB. Examples: 2, 4, 6, 8 and more"
 }
 
-variable "disk_size" {
-  type        = string
-  description = "Disk size GB. Min 50 for Windows."
-}
+#variable "disk_size" {
+#  type        = string
+#  description = "Disk size GB. Min 50 for Windows."
+#}
+#
+#variable "disk_type" {
+#  type        = string
+#  description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
+#}
 
-variable "disk_type" {
-  type        = string
-  description = "Disk type. Examples: network-ssd, network-hdd, network-ssd-nonreplicated"
-}
-
-variable "hostname_prometheus" {
-  type        = string
-  description = "hostname_prometheus"
-}
-
-variable "hostname_javaindocker" {
-  type        = string
-  description = "hostname_javaindocker"
-}
+#variable "hostname_prometheus" {
+#  type        = string
+#  description = "hostname_prometheus"
+#}
+#
+#variable "hostname_javaindocker" {
+#  type        = string
+#  description = "hostname_javaindocker"
+#}
 
 variable "domain" {
   type        = string

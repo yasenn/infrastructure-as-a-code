@@ -7,7 +7,16 @@
       when: ansible_os_family == 'Debian'
     - name: install pip3
       apt: name=python3-pip state=present
+    - name: Install multi python packages with version specifiers
+      pip:
+        name:
+          - docker
+          - docker-compose
   roles:
+    - role: geerlingguy.docker
+    - role: cloudalchemy.node_exporter
+    - role: andrewrothstein.prometheus_jmx_exporter
+    - role: ansible-role-cadvisor
     - role: buluma.java
       vars:
         java_type: jdk
@@ -16,12 +25,10 @@
     - name: install maven
       apt: name=maven state=present
 
-
 - name: Install prometheus and Grafana
   become: true
   hosts: prometheus
   roles:
-    - role: cloudalchemy.node_exporter
     - role: cloudalchemy.prometheus
     - role: buluma.grafana
 
