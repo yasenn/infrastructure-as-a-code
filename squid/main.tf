@@ -1,12 +1,8 @@
-locals {
-  subnet_id = yandex_vpc_subnet.subnet-1.id
-}
-
 module "squid" {
   source             = "patsevanton/compute/yandex"
   version            = "1.1.0"
   image_family       = "ubuntu-2004-lts"
-  subnet_id          = local.subnet_id
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
   zone               = var.yc_zone
   name               = "squid"
   hostname           = "squid"
