@@ -1,0 +1,3 @@
+[submodule "terraform-dataproc-yandex"]
+	path = terraform-dataproc-yandex
+	url = https://github.com/yasenn/terraform-dataproc-yandex
