@@ -1,3 +1,20 @@
+module "javaindocker" {
+  source             = "patsevanton/compute/yandex"
+  version            = "1.1.0"
+  image_family       = var.family_images_linux
+  subnet_id          = yandex_vpc_subnet.subnet-1.id
+  zone               = var.yc_zone
+  name               = "javaindocker"
+  hostname           = "javaindocker"
+  size               = 30
+  is_nat             = true
+  service_account_id = yandex_iam_service_account.sa-compute-admin.id
+  depends_on = [
+    yandex_vpc_subnet.subnet-1,
+    yandex_iam_service_account.sa-compute-admin
+  ]
+}
+
 module "prometheus" {
   source             = "patsevanton/compute/yandex"
   version            = "1.1.0"
@@ -28,10 +45,12 @@ resource "yandex_vpc_subnet" "subnet-1" {
 resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tpl",
     {
-      ssh_user  = var.ssh_user
-      hostname  = var.hostname
-      public_ip = module.prometheus.external_ip[0]
-      domain    = var.domain
+      ssh_user               = var.ssh_user
+      hostname_prometheus    = "prometheus"
+      hostname_javaindocker  = "javaindocker"
+      public_ip_prometheus   = module.prometheus.external_ip[0]
+      public_ip_javaindocker = module.javaindocker.external_ip[0]
+      domain                 = var.domain
     }
   )
   filename = "inventory.yml"
