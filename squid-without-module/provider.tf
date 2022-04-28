@@ -6,6 +6,10 @@ terraform {
       source  = "yandex-cloud/yandex"
       version = "0.73.0"
     }
+    template = {
+      source  = "terraform-registry.storage.yandexcloud.net/hashicorp/template"
+      version = "2.2.0"
+    }
     local = {
       source  = "terraform-registry.storage.yandexcloud.net/hashicorp/local"
       version = "2.2.2"
