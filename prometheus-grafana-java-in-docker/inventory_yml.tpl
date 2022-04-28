@@ -53,3 +53,7 @@ all:
       - dashboard_id: 14845
         revision_id: 1
         datasource: prometheus
+      # Fork JMX Dashboard(Basic):
+      - dashboard_id: 16179
+        revision_id: 1
+        datasource: prometheus

@@ -17,6 +17,7 @@
     - role: cloudalchemy.node_exporter
     - role: andrewrothstein.prometheus_jmx_exporter
     - role: ansible-role-cadvisor
+    - role: ansible-process_exporter
     - role: buluma.java
       vars:
         java_type: jdk
