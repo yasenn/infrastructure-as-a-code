@@ -8,8 +8,6 @@ TF_IN_AUTOMATION=1 terraform init
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy install cloudalchemy.node_exporter
 ansible-galaxy install cloudalchemy.prometheus
-ansible-galaxy install cloudalchemy.grafana
-ansible-galaxy install buluma.prometheus
 ansible-galaxy install buluma.grafana
 ansible-galaxy install andrewrothstein.prometheus_jmx_exporter
 ansible-galaxy install buluma.java
