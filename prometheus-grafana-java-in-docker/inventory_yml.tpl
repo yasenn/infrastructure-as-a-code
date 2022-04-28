@@ -50,10 +50,16 @@ all:
         revision_id: 1
         datasource: prometheus
       # JMX Dashboard(Basic):
-      - dashboard_id: 14845
-        revision_id: 1
-        datasource: prometheus
+      #- dashboard_id: 14845
+      #  revision_id: 1
+      #  datasource: prometheus
       # Fork JMX Dashboard(Basic):
       - dashboard_id: 16179
         revision_id: 1
         datasource: prometheus
+      # Process exporter dashboard with treemap:
+      - dashboard_id: 13882
+        revision_id: 9
+        datasource: prometheus
+
+#### grafana-cli plugins install marcusolsson-treemap-panel
