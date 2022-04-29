@@ -11,5 +11,9 @@ all:
   vars:
     ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    grafana_use_provisioning: true
+    grafana_security:
+      admin_user: admin
+      admin_password: enter_your_secure_password
 
 #### grafana-cli plugins install marcusolsson-treemap-panel
