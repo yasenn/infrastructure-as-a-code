@@ -46,9 +46,9 @@ resource "local_file" "inventory_yml" {
   content = templatefile("inventory_yml.tpl",
     {
       ssh_user               = var.ssh_user
-      hostname_prometheus    = "prometheus"
+      hostname_loki          = "loki"
       hostname_javaindocker  = "javaindocker"
-      public_ip_prometheus   = module.loki.external_ip[0]
+      public_ip_loki         = module.loki.external_ip[0]
       public_ip_javaindocker = module.javaindocker.external_ip[0]
       domain                 = var.domain
     }
