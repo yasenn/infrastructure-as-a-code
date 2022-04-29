@@ -1,0 +1,40 @@
+---
+- hosts: javaindocker
+  become: true
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+    - name: install pip3
+      apt: name=python3-pip state=present
+    - name: Install multi python packages with version specifiers
+      pip:
+        name:
+          - docker
+          - docker-compose
+  roles:
+    - role: geerlingguy.docker
+    - role: patrickjahns.promtail
+  post_tasks:
+    - name: Copy docker-compose-demo.yml
+      copy:
+        src: docker-compose-demo.yml
+        dest: /home/ubuntu/docker-compose-demo.yml
+    - name: add user to docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: yes
+    - name: reset ssh connection to allow user changes to affect ansible user
+      ansible.builtin.meta:
+        reset_connection
+
+- name: Install loki and Grafana
+  become: true
+  hosts: loki
+  roles:
+    - role: ansible-loki
+    - role: buluma.grafana
+
+
+# https://github.com/stadtulm/a13-ansible/blob/master/main.yml
