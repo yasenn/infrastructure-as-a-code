@@ -25,9 +25,14 @@
       copy:
         src: jmx_prometheus_javaagent_config.yaml
         dest: /usr/local/jmx_prometheus_javaagent_config.yaml
-    - name: add user to docker group
+    - name: add user ubuntu to docker group
       ansible.builtin.user:
         name: ubuntu
+        groups: docker
+        append: yes
+    - name: add user promtail to docker group
+      ansible.builtin.user:
+        name: promtail
         groups: docker
         append: yes
     - name: reset ssh connection to allow user changes to affect ansible user

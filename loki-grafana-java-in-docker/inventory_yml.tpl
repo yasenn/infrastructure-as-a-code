@@ -13,6 +13,10 @@ all:
   vars:
     ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    docker_daemon_options:
+      "log-driver": "json-file"
+      "log-opts":
+          "max-size": "100m"
     grafana_use_provisioning: true
     grafana_security:
       admin_user: admin
@@ -24,33 +28,11 @@ all:
         url: 'http://localhost:3100'
         basicAuth: false
     promtail_config_scrape_configs:
-      - job_name: containers
-        static_configs:
-        - targets:
-            - localhost
-          labels:
-            job: containerlogs
-            __path__: /var/lib/docker/containers/*/*log
-
-        pipeline_stages:
-        - json:
-            expressions:
-              output: log
-              stream: stream
-              attrs:
-        - json:
-            expressions:
-              tag:
-            source: attrs
-        - regex:
-            expression: (?P<container_name>(?:[^|]*[^|]))
-            source: tag
-        - timestamp:
-            format: RFC3339Nano
-            source: time
-        - labels:
-            # tag:
-            stream:
-            container_name:
-        - output:
-            source: output
+      - job_name: flog_scrape 
+        docker_sd_configs:
+          - host: unix:///var/run/docker.sock
+            refresh_interval: 5s
+        relabel_configs:
+          - source_labels: ['__meta_docker_container_name']
+            regex: '/(.*)'
+            target_label: 'container'
