@@ -20,6 +20,10 @@
       copy:
         src: docker-compose-demo.yml
         dest: /home/ubuntu/docker-compose-demo.yml
+    - name: Copy jmx_prometheus_javaagent_config.yaml
+      copy:
+        src: jmx_prometheus_javaagent_config.yaml
+        dest: /usr/local/jmx_prometheus_javaagent_config.yaml
     - name: add user to docker group
       ansible.builtin.user:
         name: ubuntu
