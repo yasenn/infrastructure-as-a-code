@@ -47,6 +47,8 @@
   become: true
   hosts: loki
   roles:
+    - role: systemli.letsencrypt
+    - role: geerlingguy.nginx
     - role: ansible-loki
     - role: buluma.grafana
 

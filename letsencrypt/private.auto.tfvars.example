@@ -8,5 +8,5 @@ cores               = "2"           # Examples: 2, 4, 6, 8 and more
 memory              = "4"           # Examples: 2, 4, 6, 8 and more
 disk_size           = "20"          # Min 50 for Windows
 disk_type           = "network-ssd" # Examples: network-ssd, network-hdd, network-ssd-nonreplicated
-letsencrypt_hostname     = "letsencrypt"
+letsencrypt_hostname = "letsencrypt"
 domain              = "sslip.io"

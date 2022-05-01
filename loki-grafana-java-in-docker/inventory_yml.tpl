@@ -13,6 +13,26 @@ all:
   vars:
     ansible_user:  ${ssh_user}
     ansible_ssh_private_key_file: ~/.ssh/id_rsa
+    letsencrypt_opts_extra: "--register-unsafely-without-email"
+    letsencrypt_cert:
+      name: ${hostname_loki}.${public_ip_loki}.${domain}
+      domains:
+        - ${hostname_loki}.${public_ip_loki}.${domain}
+      challenge: http
+      http_auth: standalone
+      reuse_key: True
+    nginx_vhosts:
+      - listen: "443 ssl"
+        server_name: ${hostname_loki}.${public_ip_loki}.${domain}
+        index: "index.php index.html index.htm"
+        state: "present"
+        extra_parameters: |
+          location / {
+            proxy_pass http://localhost:3000/;
+            proxy_set_header Host $host;
+          }
+          ssl_certificate     /etc/letsencrypt/live/${hostname_loki}.${public_ip_loki}.${domain}/cert.pem;
+          ssl_certificate_key /etc/letsencrypt/live/${hostname_loki}.${public_ip_loki}.${domain}/privkey.pem;
     docker_daemon_options:
       "log-driver": "json-file"
       "log-opts":

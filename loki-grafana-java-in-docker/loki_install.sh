@@ -8,6 +8,9 @@ TF_IN_AUTOMATION=1 terraform init -upgrade
 unset HTTP_PROXY
 unset HTTPS_PROXY
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
+pip3 install -U --user Jinja2
+ansible-galaxy install systemli.letsencrypt
+ansible-galaxy install geerlingguy.nginx
 ansible-galaxy install patrickjahns.promtail
 ansible-galaxy install andrewrothstein.prometheus_jmx_exporter
 ansible-galaxy install buluma.grafana
