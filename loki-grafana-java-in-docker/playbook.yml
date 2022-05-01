@@ -38,6 +38,10 @@
     - name: reset ssh connection to allow user changes to affect ansible user
       ansible.builtin.meta:
         reset_connection
+    - name: Restart service promtail
+      service:
+        name: promtail
+        state: restarted
 
 - name: Install loki and Grafana
   become: true
