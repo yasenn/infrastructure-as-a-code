@@ -9,6 +9,7 @@ unset HTTP_PROXY
 unset HTTPS_PROXY
 TF_IN_AUTOMATION=1 terraform apply -auto-approve
 ansible-galaxy install patrickjahns.promtail
+ansible-galaxy install andrewrothstein.prometheus_jmx_exporter
 ansible-galaxy install buluma.grafana
 ansible-galaxy install geerlingguy.docker
 ansible-galaxy install --force git+https://github.com/virtUOS/ansible-loki.git,main

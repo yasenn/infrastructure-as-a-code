@@ -43,17 +43,14 @@ all:
               tag:
             source: attrs
         - regex:
-            expression: (?P<image_name>(?:[^|]*[^|])).(?P<container_name>(?:[^|]*[^|])).(?P<image_id>(?:[^|]*[^|])).(?P<container_id>(?:[^|]*[^|]))
+            expression: (?P<container_name>(?:[^|]*[^|]))
             source: tag
         - timestamp:
             format: RFC3339Nano
             source: time
         - labels:
-            tag:
+            # tag:
             stream:
-            image_name:
             container_name:
-            image_id:
-            container_id:
         - output:
             source: output

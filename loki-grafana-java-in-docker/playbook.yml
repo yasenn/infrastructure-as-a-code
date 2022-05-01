@@ -15,6 +15,7 @@
   roles:
     - role: geerlingguy.docker
     - role: patrickjahns.promtail
+    - role: andrewrothstein.prometheus_jmx_exporter
   post_tasks:
     - name: Copy docker-compose-demo.yml
       copy:
