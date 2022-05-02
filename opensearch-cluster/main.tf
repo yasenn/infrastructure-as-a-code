@@ -6,7 +6,7 @@ module "master" {
   zone               = var.yc_zone
   name               = "master"
   hostname           = "master"
-  # memory             = "8"
+  memory             = "8"
   is_nat             = true
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   depends_on = [
@@ -24,7 +24,7 @@ module "data" {
   zone               = var.yc_zone
   name               = "data${count.index}"
   hostname           = "data${count.index}"
-  # memory             = "8"
+  memory             = "8"
   is_nat             = true
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   depends_on = [
@@ -41,7 +41,7 @@ module "dashboard" {
   zone               = var.yc_zone
   name               = "dashboard"
   hostname           = "dashboard"
-  # memory             = "4"
+  memory             = "4"
   is_nat             = true
   service_account_id = yandex_iam_service_account.sa-compute-admin.id
   depends_on = [
