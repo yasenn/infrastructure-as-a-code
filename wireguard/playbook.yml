@@ -1,4 +1,12 @@
-  - hosts: wireguard
-    become: true
-    roles:
-      - githubixx.ansible_role_wireguard
+- hosts: wireguard
+  become: true
+  roles:
+    - githubixx.ansible_role_wireguard
+  # post_tasks:
+  #   # Set ip forwarding on in /proc and in the sysctl file and reload if necessary
+  #   - ansible.posix.sysctl:
+  #       name: net.ipv4.ip_forward
+  #       value: '1'
+  #       sysctl_set: yes
+  #       state: present
+  #       reload: yes
